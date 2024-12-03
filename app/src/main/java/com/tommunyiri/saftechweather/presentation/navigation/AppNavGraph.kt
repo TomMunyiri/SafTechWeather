@@ -1,14 +1,10 @@
 package com.tommunyiri.saftechweather.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tommunyiri.saftechweather.presentation.screens.home.HomeScreen
-import com.tommunyiri.saftechweather.presentation.screens.home.HomeScreenIntent
-import com.tommunyiri.saftechweather.presentation.screens.home.HomeScreenViewModel
 import com.tommunyiri.saftechweather.presentation.screens.settings.SettingsScreen
 
 
@@ -24,16 +20,8 @@ fun WeatherAppScreensNavHost(
 ) {
     NavHost(navController = navController, startDestination = Destinations.HOME.route) {
         composable(Destinations.HOME.route) {
-            val homeViewModel = hiltViewModel<HomeScreenViewModel>()
-            val state = homeViewModel
-                .homeScreenState
-                .collectAsState()
-                .value
-
-            //homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
 
             HomeScreen(
-                state = state,
                 onSettingClicked = {
                     navController.navigate(Destinations.SETTINGS.route) {
                         popUpTo(Destinations.HOME.route) {
@@ -43,9 +31,6 @@ fun WeatherAppScreensNavHost(
                 },
                 onTryAgainClicked = {
                     //homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
-                },
-                onCityNameReceived = { cityName ->
-                    homeViewModel.processIntent(HomeScreenIntent.DisplayCityName(cityName = cityName))
                 }
             )
         }

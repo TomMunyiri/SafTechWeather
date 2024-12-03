@@ -1,7 +1,12 @@
 package com.tommunyiri.saftechweather.presentation.screens.home
 
+import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tommunyiri.saftechweather.common.getCityName
 import com.tommunyiri.saftechweather.domain.model.LocationModel
 import com.tommunyiri.saftechweather.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -22,7 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     //private val weatherRepository: WeatherRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val context: Application
 ) : ViewModel() {
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
@@ -58,10 +66,18 @@ class HomeScreenViewModel @Inject constructor(
                 }
             }*/
 
-            is HomeScreenIntent.DisplayCityName -> {
-                setState { copy(locationName = homeScreenIntent.cityName) }
+            is HomeScreenIntent.GetCurrentTimeDate -> {
+                setState { copy(currentSystemTime = getCurrentSystemTime()) }
             }
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getCurrentSystemTime(): String {
+        val currentTime = System.currentTimeMillis()
+        val date = Date(currentTime)
+        val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
+        return dateFormat.format(date)
     }
 
     private fun setState(stateReducer: HomeScreenState.() -> HomeScreenState) {
@@ -79,5 +95,7 @@ data class HomeScreenState(
     val isRefreshing: Boolean = false,
     val error: String? = null,
     val locationName: String = "-",
+    val currentSystemTime: String = "",
+    val cityName: String = "",
     val defaultLocation: LocationModel = LocationModel(0.0, 0.0),
 )

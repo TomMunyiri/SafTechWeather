@@ -15,6 +15,7 @@
 
     <!--Home Screen-->
     <string name="home_content_description_setting_icon">Setting Icon</string>
+    <string name="home_content_description_refresh_icon">Refresh Icon</string>
     <!--Settings Screen-->
     <string name="settings_screen_title">Settings</string>
 

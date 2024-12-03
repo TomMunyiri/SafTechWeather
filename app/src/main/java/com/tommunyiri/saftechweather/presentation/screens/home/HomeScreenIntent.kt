@@ -7,5 +7,5 @@ package com.tommunyiri.saftechweather.presentation.screens.home
  * Email:
  */
 sealed class HomeScreenIntent {
-    data class DisplayCityName(val cityName: String) : HomeScreenIntent()
+    data object GetCurrentTimeDate : HomeScreenIntent()
 }
