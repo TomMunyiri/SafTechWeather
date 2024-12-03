@@ -20,6 +20,7 @@ class DefaultSettingsRepository @Inject constructor(
 
     private val PREF_LANGUAGE by lazy { stringPreferencesKey(KEY_LANGUAGE) }
     private val PREF_UNITS by lazy { stringPreferencesKey(KEY_UNITS) }
+    private val PREF_TEMP_UNIT by lazy { stringPreferencesKey(KEY_TEMP_UNIT) }
     private val TIME_FORMAT by lazy { stringPreferencesKey(KEY_TIME_FORMAT) }
     private val PREF_LAT_LNG by lazy { stringPreferencesKey(KEY_LAT_LNG) }
 
@@ -76,6 +77,17 @@ class DefaultSettingsRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun setDefaultTempUnit(prefTempUnit: String) {
+        set(key = PREF_TEMP_UNIT, value = prefTempUnit)
+    }
+
+    override suspend fun getDefaultTempUnit(): Flow<String> {
+        return get(
+            key = PREF_TEMP_UNIT,
+            default = DEFAULT_TEMP_UNIT
+        )
+    }
+
     private suspend fun <T> set(key: Preferences.Key<T>, value: T) {
         context.dataStore.edit { settings ->
             settings[key] = value
@@ -89,12 +101,13 @@ class DefaultSettingsRepository @Inject constructor(
     }
 
     companion object {
-        //Düsseldorf
         const val DEFAULT_LONGITUDE = 6.773456
         const val DEFAULT_LATITUDE = 51.227741
+        const val DEFAULT_TEMP_UNIT = "Celsius/°C"
 
         const val KEY_LANGUAGE = "language"
         const val KEY_UNITS = "units"
+        const val KEY_TEMP_UNIT = "temp_unit"
         const val KEY_LAT_LNG = "lat_lng"
         const val KEY_TIME_FORMAT = "time_formats"
     }

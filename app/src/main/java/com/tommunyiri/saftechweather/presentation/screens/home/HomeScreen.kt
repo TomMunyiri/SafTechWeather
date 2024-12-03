@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tommunyiri.saftechweather.R
 import com.tommunyiri.saftechweather.common.getCityName
+import com.tommunyiri.saftechweather.presentation.components.LoadingIndicator
 
 
 /**
@@ -51,20 +52,27 @@ fun HomeScreen(
 
     homeViewModel.processIntent(HomeScreenIntent.GetCurrentTimeDate)
 
+    if (state.isLoading) {
+        LoadingIndicator()
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         LocalContext.current.getCityName(
             latitude = state.defaultLocation.latitude,
             longitude = state.defaultLocation.longitude
         ) { address ->
             cityName = address.locality.toString()
+            homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
         }
-        HomeTopBar(onSettingClicked)
-        TopHeader(cityName, currentTimeDate = state.currentSystemTime)
+        HomeTopBar(
+            onSettingClicked,
+            onRefreshClicked = { homeViewModel.processIntent(HomeScreenIntent.RefreshWeatherData) })
+        TopHeader(cityName, currentTimeDate = state.currentSystemTime, state)
     }
 }
 
 @Composable
-fun HomeTopBar(onSettingClicked: () -> Unit) {
+fun HomeTopBar(onSettingClicked: () -> Unit, onRefreshClicked: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(16.dp)
@@ -79,7 +87,7 @@ fun HomeTopBar(onSettingClicked: () -> Unit) {
             contentDescription = stringResource(R.string.home_content_description_refresh_icon),
             modifier = Modifier
                 .defaultMinSize(40.dp)
-                .clickable { /*onSettingClicked()*/ }
+                .clickable { onRefreshClicked() }
                 .padding(8.dp)
         )
         Spacer(modifier = Modifier.weight(1.0f))
@@ -96,7 +104,7 @@ fun HomeTopBar(onSettingClicked: () -> Unit) {
 
 @Composable
 fun TopHeader(
-    cityName: String, currentTimeDate: String
+    cityName: String, currentTimeDate: String, state: HomeScreenState
 ) {
 
     Box(
@@ -130,7 +138,9 @@ fun TopHeader(
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = "12.21 C",
+                text = if (state.prefTempUnit == stringResource(R.string.temp_unit_celsius)) "${state.weather?.temp_c} ${
+                    stringResource(R.string.temp_symbol_celsius)
+                } " else "${state.weather?.temp_f} ${stringResource(R.string.temp_symbol_fahrenheit)}",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,
                 modifier =
@@ -140,7 +150,7 @@ fun TopHeader(
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = "CLOUDS",
+                text = state.weather?.condition?.text.toString().uppercase(),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Normal,
                 modifier =

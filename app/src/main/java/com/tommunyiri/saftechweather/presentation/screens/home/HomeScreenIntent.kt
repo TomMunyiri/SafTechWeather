@@ -8,4 +8,6 @@ package com.tommunyiri.saftechweather.presentation.screens.home
  */
 sealed class HomeScreenIntent {
     data object GetCurrentTimeDate : HomeScreenIntent()
+    object LoadWeatherData : HomeScreenIntent()
+    object RefreshWeatherData : HomeScreenIntent()
 }

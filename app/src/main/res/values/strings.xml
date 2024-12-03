@@ -19,4 +19,11 @@
     <!--Settings Screen-->
     <string name="settings_screen_title">Settings</string>
 
+    <!--Preferences-->
+    <string name="preference_temperature_unit_title">Temperature Unit</string>
+    <string name="temp_unit_celsius">Celsius/°C</string>
+    <string name="temp_unit_fahrenheit">Fahrenheit/°F</string>
+    <string name="temp_symbol_celsius">\u2103</string>
+    <string name="temp_symbol_fahrenheit">\u2109</string>
+
 </resources>
