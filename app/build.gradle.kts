@@ -124,4 +124,8 @@ dependencies {
 
     //datastore
     implementation(libs.datastore)
+    //compose calendar
+//    implementation(libs.composecalendar)
+//    implementation(libs.composecalendar.kotlinx.datetime)
+    implementation(libs.calendar.compose)
 }
