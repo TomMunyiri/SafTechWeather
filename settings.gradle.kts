@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven(url = "https://jitpack.io")
     }
 }
 dependencyResolutionManagement {
@@ -16,6 +17,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://jitpack.io")
+    }
+}
+
+buildCache {
+    local {
+        directory = File(rootDir, "build-cache")
+        removeUnusedEntriesAfterDays = 30
     }
 }
 

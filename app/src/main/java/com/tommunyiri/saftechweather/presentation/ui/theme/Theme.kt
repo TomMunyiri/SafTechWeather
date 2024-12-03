@@ -1,6 +1,5 @@
-package com.tommunyiri.saftechweather.ui.theme
+package com.tommunyiri.saftechweather.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

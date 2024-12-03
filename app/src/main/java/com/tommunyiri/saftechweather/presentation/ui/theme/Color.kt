@@ -1,4 +1,4 @@
-package com.tommunyiri.saftechweather.ui.theme
+package com.tommunyiri.saftechweather.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
