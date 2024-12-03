@@ -30,9 +30,9 @@ import com.tommunyiri.saftechweather.core.MainViewState
 import com.tommunyiri.saftechweather.presentation.components.EnableLocationSettingScreen
 import com.tommunyiri.saftechweather.presentation.components.LoadingIndicator
 import com.tommunyiri.saftechweather.presentation.components.RequiresPermissionsScreen
+import com.tommunyiri.saftechweather.presentation.navigation.WeatherAppScreensNavHost
 import com.tommunyiri.saftechweather.presentation.ui.theme.SafTechWeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -101,7 +101,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                //WeatherAppScreensConfig(navController = rememberNavController())
+                WeatherAppScreensNavHost(navController = rememberNavController())
             }
 
             state.isLocationSettingEnabled && !state.isPermissionGranted -> {

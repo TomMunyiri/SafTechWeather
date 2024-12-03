@@ -10,6 +10,7 @@ import com.tommunyiri.saftechweather.domain.model.LocationModel
 import com.tommunyiri.saftechweather.domain.repository.SettingsRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -27,7 +28,7 @@ class DefaultSettingsRepository @Inject constructor(
     }
 
     override suspend fun getLanguage(): Flow<String> {
-        TODO("Not yet implemented")
+        return flowOf("")
     }
 
     override suspend fun setUnits(units: String) {
@@ -35,7 +36,7 @@ class DefaultSettingsRepository @Inject constructor(
     }
 
     override suspend fun getUnits(): Flow<String> {
-        TODO("Not yet implemented")
+        return flowOf("")
     }
 
     override fun getAppVersion(): String =

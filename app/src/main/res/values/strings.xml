@@ -12,4 +12,10 @@
     <string name="error_server">Oops! Something is wrong on our end :(</string>
     <string name="error_generic">Something is happening that\'s disturbing the force :(</string>
     <string name="error_connection">Check your internet connection and try again</string>
+
+    <!--Home Screen-->
+    <string name="home_content_description_setting_icon">Setting Icon</string>
+    <!--Settings Screen-->
+    <string name="settings_screen_title">Settings</string>
+
 </resources>

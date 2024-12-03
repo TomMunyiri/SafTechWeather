@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -9,6 +11,9 @@ plugins {
 }
 
 android {
+    val properties = Properties()
+    properties.load(rootProject.file("local.properties").inputStream())
+
     namespace = "com.tommunyiri.saftechweather"
     compileSdk = 35
 
@@ -25,7 +30,8 @@ android {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
 
-        //buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+        buildConfigField("String", "BASE_URL", properties.getProperty("BASE_URL"))
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -114,6 +120,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     //datastore
     implementation(libs.datastore)
