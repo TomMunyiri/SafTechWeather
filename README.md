@@ -4,7 +4,7 @@ An Android weather application implemented using the MVI pattern and clean archi
 
 ## Architecture
 The architecture of this application relies and complies with the following points below:
-* Pattern [Model-View-Intent](https://krishanmadushankadev.medium.com/android-mvi-model-view-intent-architecture-example-code-bc7dc8edb33)(MVI) which facilitates separation of different layers of the application.
+* Pattern [Model-View-Intent](https://krishanmadushankadev.medium.com/android-mvi-model-view-intent-architecture-example-code-bc7dc8edb33)(MVI) with Clean Architecture which facilitates separation of different layers of the application.
 * [Android architecture components](https://developer.android.com/topic/libraries/architecture/) which help to keep the application robust, testable, and maintainable.
 
 <p align="center"><a><img src="https://github.com/TomMunyiri/DVTWeatherApp/blob/main/media/clean_architecture.png" width="700" alt="clean_architecture_image"></a></p>
