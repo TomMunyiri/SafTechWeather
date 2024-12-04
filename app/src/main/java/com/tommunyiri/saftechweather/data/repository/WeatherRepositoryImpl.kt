@@ -8,9 +8,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import com.tommunyiri.saftechweather.core.utils.Result
+import com.tommunyiri.saftechweather.data.mappers.WeatherForecastMapperLocal
+import com.tommunyiri.saftechweather.data.mappers.WeatherForecastMapperRemote
 import com.tommunyiri.saftechweather.data.mappers.WeatherMapperLocal
 import com.tommunyiri.saftechweather.data.mappers.WeatherMapperRemote
 import com.tommunyiri.saftechweather.domain.model.CurrentWeather
+import com.tommunyiri.saftechweather.domain.model.Forecastday
 import com.tommunyiri.saftechweather.domain.model.NetworkCurrentWeather
 
 /**
@@ -66,4 +69,50 @@ constructor(
         withContext(ioDispatcher) {
             localDataSource.deleteWeather()
         }
+
+    override suspend fun storeForecastData(forecasts: List<Forecastday>) =
+        withContext(ioDispatcher) {
+            val mapper = WeatherForecastMapperLocal()
+            mapper.transformToDto(forecasts).let { listOfDbForecast ->
+                listOfDbForecast.forEach {
+                    localDataSource.saveForecastWeather(it)
+                }
+            }
+        }
+
+    override suspend fun getForecastData(
+        query: String, date: String, url: String, refresh: Boolean
+    ): Result<List<Forecastday>?> =
+        withContext(ioDispatcher) {
+            if (refresh) {
+                val mapper = WeatherForecastMapperRemote()
+                when (val response = remoteDataSource.getWeatherForecast(query, date, url)) {
+                    is Result.Success -> {
+                        if (response.data != null) {
+                            Result.Success(mapper.transformToDomain(response.data))
+                        } else {
+                            Result.Success(null)
+                        }
+                    }
+
+                    is Result.Error -> {
+                        Result.Error(response.exception)
+                    }
+
+                    else -> Result.Loading
+                }
+            } else {
+                val mapper = WeatherForecastMapperLocal()
+                val forecast = localDataSource.getForecastWeather()
+                if (forecast != null) {
+                    Result.Success(mapper.transformToDomain(forecast))
+                } else {
+                    Result.Success(null)
+                }
+            }
+        }
+
+    override suspend fun deleteForecastData() = withContext(ioDispatcher) {
+        localDataSource.deleteWeather()
+    }
 }

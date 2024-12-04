@@ -7,7 +7,7 @@ import com.tommunyiri.saftechweather.data.sources.local.database.entity.DBCurren
 
 @Database(
     entities = [DBCurrentWeather::class],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 abstract class WeatherDatabase : RoomDatabase() {

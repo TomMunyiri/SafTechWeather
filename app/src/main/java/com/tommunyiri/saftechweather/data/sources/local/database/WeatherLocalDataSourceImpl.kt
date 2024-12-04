@@ -3,6 +3,7 @@ package com.tommunyiri.saftechweather.data.sources.local.database
 import com.tommunyiri.saftechweather.core.di.scope.IoDispatcher
 import com.tommunyiri.saftechweather.data.sources.local.database.dao.WeatherDao
 import com.tommunyiri.saftechweather.data.sources.local.database.entity.DBCurrentWeather
+import com.tommunyiri.saftechweather.data.sources.local.database.entity.DBForecastday
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,6 +27,21 @@ constructor(
     override suspend fun deleteWeather() =
         withContext(ioDispatcher) {
             weatherDao.deleteAllWeather()
+        }
+
+    override suspend fun getForecastWeather(): List<DBForecastday>? =
+        withContext(ioDispatcher) {
+            return@withContext weatherDao.getAllWeatherForecast()
+        }
+
+    override suspend fun saveForecastWeather(weatherForecast: DBForecastday) =
+        withContext(ioDispatcher) {
+            weatherDao.insertForecastWeather(weatherForecast)
+        }
+
+    override suspend fun deleteForecastWeather() =
+        withContext(ioDispatcher) {
+            weatherDao.deleteAllWeatherForecast()
         }
 
 }

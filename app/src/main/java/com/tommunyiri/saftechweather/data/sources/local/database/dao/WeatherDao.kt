@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.tommunyiri.saftechweather.data.sources.local.database.entity.DBCurrentWeather
+import com.tommunyiri.saftechweather.data.sources.local.database.entity.DBForecastday
 
 @Dao
 interface WeatherDao {
@@ -19,5 +20,14 @@ interface WeatherDao {
 
     @Query("DELETE FROM weather_table")
     suspend fun deleteAllWeather()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertForecastWeather(vararg dbWeatherForecast: DBForecastday)
+
+    @Query("SELECT * FROM hourly_weather_table ORDER BY date DESC LIMIT 1")
+    suspend fun getAllWeatherForecast(): List<DBForecastday>
+
+    @Query("DELETE FROM hourly_weather_table")
+    suspend fun deleteAllWeatherForecast()
 
 }

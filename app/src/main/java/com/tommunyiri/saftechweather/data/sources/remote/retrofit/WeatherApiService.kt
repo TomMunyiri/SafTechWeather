@@ -1,8 +1,10 @@
 package com.tommunyiri.saftechweather.data.sources.remote.retrofit
 
+import com.tommunyiri.saftechweather.domain.model.NetworkHourlyWeatherResponse
 import com.tommunyiri.saftechweather.domain.model.NetworkWeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherApiService {
@@ -14,4 +16,11 @@ interface WeatherApiService {
     suspend fun getCurrentWeather(
         @Query("q") location: String,
     ): Response<NetworkWeatherResponse>
+
+    @GET("{url}")
+    suspend fun getWeatherForecast(
+        @Query("q") location: String,
+        @Query("dt") date: String,
+        @Path("url") url: String
+    ): Response<NetworkHourlyWeatherResponse>
 }
