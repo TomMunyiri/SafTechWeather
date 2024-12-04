@@ -25,8 +25,8 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertForecastWeather(vararg dbWeatherForecast: DBForecastday)
 
-    @Query("SELECT * FROM hourly_weather_table ORDER BY date DESC LIMIT 1")
-    suspend fun getAllWeatherForecast(): List<DBForecastday>
+    @Query("SELECT * FROM hourly_weather_table WHERE date = :date ORDER BY date DESC LIMIT 1")
+    suspend fun getAllWeatherForecast(date: String): List<DBForecastday>
 
     @Query("DELETE FROM hourly_weather_table")
     suspend fun deleteAllWeatherForecast()

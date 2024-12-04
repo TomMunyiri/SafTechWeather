@@ -1,7 +1,6 @@
 package com.tommunyiri.saftechweather.presentation.screens.home
 
 import android.annotation.SuppressLint
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.saftechweather.core.utils.Result
@@ -29,7 +28,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val context: Application,
     private val weatherUseCases: WeatherUseCases
 ) : ViewModel() {
     private val _homeScreenState = MutableStateFlow(HomeScreenState())

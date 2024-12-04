@@ -13,19 +13,23 @@ class GetWeatherForecastUseCase(private val weatherRepository: WeatherRepository
         val query = "${location.latitude},${location.longitude}"
         val result = weatherRepository.getForecastData(query, date, refresh)
         if (refresh) {
-            when (result) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        weatherRepository.deleteForecastData()
-                        weatherRepository.storeForecastData(result.data)
+            try {
+                when (result) {
+                    is Result.Success -> {
+                        if (result.data != null) {
+                            weatherRepository.deleteForecastData()
+                            weatherRepository.storeForecastData(result.data)
+                        }
                     }
-                }
 
-                is Result.Error -> {
-                    Log.d("TAG", "getWeatherForecast: ERROR ${result.exception}")
-                }
+                    is Result.Error -> {
+                        Log.d("TAG", "getWeatherForecast: ERROR ${result.exception}")
+                    }
 
-                is Result.Loading -> {}
+                    is Result.Loading -> {}
+                }
+            }catch (exception: Exception){
+                Log.d("TAG", "getWeatherForecast: ERROR $exception")
             }
         }
         return result

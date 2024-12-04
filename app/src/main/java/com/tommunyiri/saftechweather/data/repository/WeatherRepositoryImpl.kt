@@ -105,7 +105,7 @@ constructor(
                 }
             } else {
                 val mapper = WeatherForecastMapperLocal()
-                val forecast = localDataSource.getForecastWeather()
+                val forecast = localDataSource.getForecastWeather(date)
                 if (forecast != null) {
                     Result.Success(mapper.transformToDomain(forecast))
                 } else {

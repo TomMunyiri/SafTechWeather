@@ -2,6 +2,8 @@ package com.tommunyiri.saftechweather.presentation.screens.details
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -77,18 +80,7 @@ fun HourlyWeatherList(
     ) {
         items(hourlyWeatherList.size) { i ->
             val hourlyWeather = hourlyWeatherList[i]
-            Text(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .fillMaxWidth()
-                        .padding(14.dp)
-                        .clickable {
-
-                        },
-                text = "Humidity: ${hourlyWeather.humidity}, Condition: ${hourlyWeather.condition.text}",
-                style = typography.bodyMedium,
-            )
+            HourWeatherItem(hourlyWeather)
             HorizontalDivider(
                 modifier =
                     Modifier
@@ -96,5 +88,42 @@ fun HourlyWeatherList(
                         .width(1.dp),
             )
         }
+    }
+}
+
+@Composable
+fun HourWeatherItem(hour: Hour) {
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Row {
+            Text(
+                text = hour.time,
+                style = typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.weight(1.0f))
+            Text(
+                text = "${hour.temp_c}°C / ${hour.temp_f}°F",
+                style = typography.bodyMedium
+            )
+        }
+        Text(
+            fontWeight = FontWeight.Bold,
+            text = "Condition: ${hour.condition.text}",
+            style = typography.bodyLarge, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+        )
+        Row {
+            Text(
+                text = "Humidity: ${hour.humidity}%",
+                style = typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.weight(1.0f))
+            Text(
+                text = "Wind Speed: ${hour.wind_kph} km/h",
+                style = typography.bodyMedium
+            )
+        }
+
     }
 }

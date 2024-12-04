@@ -29,9 +29,9 @@ constructor(
             weatherDao.deleteAllWeather()
         }
 
-    override suspend fun getForecastWeather(): List<DBForecastday>? =
+    override suspend fun getForecastWeather(date: String): List<DBForecastday>? =
         withContext(ioDispatcher) {
-            return@withContext weatherDao.getAllWeatherForecast()
+            return@withContext weatherDao.getAllWeatherForecast(date)
         }
 
     override suspend fun saveForecastWeather(weatherForecast: DBForecastday) =

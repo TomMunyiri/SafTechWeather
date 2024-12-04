@@ -10,7 +10,7 @@ interface WeatherLocalDataSource {
 
     suspend fun deleteWeather()
 
-    suspend fun getForecastWeather(): List<DBForecastday>?
+    suspend fun getForecastWeather(date: String): List<DBForecastday>?
 
     suspend fun saveForecastWeather(weatherForecast: DBForecastday)
 
