@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Date
 import javax.inject.Inject
 
@@ -71,6 +72,11 @@ class HomeScreenViewModel @Inject constructor(
         val date = Date(currentTime)
         val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
         return dateFormat.format(date)
+    }
+
+    @SuppressLint("NewApi")
+    fun getSelectedDate(selectedDate: LocalDate){
+        Log.d("TAG", "getSelectedDate: ${selectedDate.dayOfMonth}")
     }
 
     private fun setState(stateReducer: HomeScreenState.() -> HomeScreenState) {

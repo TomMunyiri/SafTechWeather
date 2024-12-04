@@ -1,7 +1,6 @@
 package com.tommunyiri.saftechweather.presentation.screens.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -69,12 +68,13 @@ import java.time.YearMonth
  * Email:
  */
 
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NewApi")
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
     onSettingClicked: () -> Unit,
     onTryAgainClicked: () -> Unit,
+    onDateSelected: (String) -> Unit,
     adjacentMonths: Long = 500
 ) {
     val homeViewModel = hiltViewModel<HomeScreenViewModel>()
@@ -82,14 +82,6 @@ fun HomeScreen(
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
 
     var cityName by remember { mutableStateOf("") }
-
-    //
-    val currentMonth = remember { YearMonth.now() }
-    val startMonth = remember { currentMonth.minusMonths(adjacentMonths) }
-    val endMonth = remember { currentMonth.plusMonths(adjacentMonths) }
-    val selections = remember { mutableStateListOf<CalendarDay>() }
-    val daysOfWeek = remember { daysOfWeek() }
-    //
 
     homeViewModel.processIntent(HomeScreenIntent.GetCurrentTimeDate)
 
@@ -111,6 +103,12 @@ fun HomeScreen(
         TopHeader(cityName, currentTimeDate = state.currentSystemTime, state)
 
         //
+        val currentMonth = remember { YearMonth.now() }
+        val startMonth = remember { currentMonth.minusMonths(adjacentMonths) }
+        val endMonth = remember { currentMonth.plusMonths(adjacentMonths) }
+        val selections = remember { mutableStateListOf<CalendarDay>() }
+        val daysOfWeek = remember { daysOfWeek() }
+
         val state = rememberCalendarState(
             startMonth = startMonth,
             endMonth = endMonth,
@@ -137,10 +135,9 @@ fun HomeScreen(
             modifier = Modifier.testTag("Calendar"),
             state = state,
             dayContent = { day ->
-                Day(
-                    day,
-                    isSelected = selections.contains(day)
-                ) { clicked ->
+                Day(day, isSelected = selections.contains(day)) { clicked ->
+                    homeViewModel.getSelectedDate(clicked.date)
+                    onDateSelected.invoke("${clicked.date.year}-${clicked.date.monthValue}-${clicked.date.dayOfMonth}")
                     if (selections.contains(clicked)) {
                         selections.remove(clicked)
                     } else {
@@ -153,57 +150,7 @@ fun HomeScreen(
             },
         )
         //
-    }
-}
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .testTag("MonthHeader"),
-    ) {
-        for (dayOfWeek in daysOfWeek) {
-            Text(
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center,
-                fontSize = 15.sp,
-                text = dayOfWeek.value.toString(),
-                fontWeight = FontWeight.Medium,
-            )
-        }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-private fun Day(day: CalendarDay, isSelected: Boolean, onClick: (CalendarDay) -> Unit) {
-    Box(
-        modifier = Modifier
-            .aspectRatio(1f) // This is important for square-sizing!
-            .testTag("MonthDay")
-            .padding(6.dp)
-            .clip(CircleShape)
-            .background(color = if (isSelected) colorResource(R.color.teal_200) else Color.Transparent)
-            // Disable clicks on inDates/outDates
-            /*.clickable(
-                enabled = day.position == DayPosition.MonthDate,
-                showRipple = !isSelected,
-                onClick = { onClick(day) },
-            ),*/
-            ,contentAlignment = Alignment.Center,
-    ) {
-        val textColor = when (day.position) {
-            // Color.Unspecified will use the default text color from the current theme
-            DayPosition.MonthDate -> if (isSelected) Color.White else Color.Unspecified
-            DayPosition.InDate, DayPosition.OutDate -> colorResource(R.color.teal_200)
-        }
-        Text(
-            text = day.date.dayOfMonth.toString(),
-            color = textColor,
-            fontSize = 14.sp,
-        )
     }
 }
 
@@ -229,7 +176,7 @@ fun SimpleCalendarTitle(
             modifier = Modifier
                 .weight(1f)
                 .testTag("MonthTitle"),
-            text = currentMonth.toString(),
+            text = currentMonth.displayText(),
             fontSize = 22.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium,
@@ -269,6 +216,56 @@ private fun CalendarNavigationIcon(
         imageVector = imageVector,
         contentDescription = contentDescription,
     )
+}
+
+@Composable
+private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("MonthHeader"),
+    ) {
+        for (dayOfWeek in daysOfWeek) {
+            Text(
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center,
+                fontSize = 15.sp,
+                text = dayOfWeek.displayText(),
+                fontWeight = FontWeight.Medium,
+            )
+        }
+    }
+}
+
+@SuppressLint("NewApi")
+@Composable
+private fun Day(day: CalendarDay, isSelected: Boolean, onClick: (CalendarDay) -> Unit) {
+    Box(
+        modifier = Modifier
+            .aspectRatio(1f) // This is important for square-sizing!
+            .testTag("MonthDay")
+            .padding(6.dp)
+            .clip(CircleShape)
+            .background(color = if (isSelected) colorResource(R.color.purple_200) else Color.Transparent)
+            // Disable clicks on inDates/outDates
+            .clickable(
+                enabled = day.position == DayPosition.MonthDate,
+                showRipple = !isSelected,
+                onClick = { onClick(day) },
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        val textColor = when (day.position) {
+            // Color.Unspecified will use the default text color from the current theme
+            DayPosition.MonthDate -> if (isSelected) Color.White else Color.Unspecified
+            DayPosition.InDate, DayPosition.OutDate -> colorResource(R.color.purple_200)
+        }
+        Text(
+            text = day.date.dayOfMonth.toString(),
+            color = textColor,
+            fontSize = 14.sp,
+        )
+    }
 }
 
 @Composable

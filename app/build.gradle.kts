@@ -71,6 +71,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
@@ -125,7 +126,8 @@ dependencies {
     //datastore
     implementation(libs.datastore)
     //compose calendar
-//    implementation(libs.composecalendar)
-//    implementation(libs.composecalendar.kotlinx.datetime)
-    implementation(libs.calendar.compose)
+    implementation(libs.himanshoe.kalendar)
+    implementation(libs.kotlinx.datetime)
+    //kizoiton calendat
+    implementation(libs.kizitonwose.calendar)
 }

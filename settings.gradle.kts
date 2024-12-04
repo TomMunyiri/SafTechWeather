@@ -30,4 +30,3 @@ buildCache {
 
 rootProject.name = "SafTech Weather"
 include(":app")
-include(":composeCalendarWidget")

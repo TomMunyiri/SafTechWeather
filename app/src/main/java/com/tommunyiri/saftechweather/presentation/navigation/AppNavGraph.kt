@@ -2,8 +2,11 @@ package com.tommunyiri.saftechweather.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.tommunyiri.saftechweather.presentation.screens.details.DetailsScreen
 import com.tommunyiri.saftechweather.presentation.screens.home.HomeScreen
 import com.tommunyiri.saftechweather.presentation.screens.settings.SettingsScreen
 
@@ -31,6 +34,14 @@ fun WeatherAppScreensNavHost(
                 },
                 onTryAgainClicked = {
                     //homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
+                },
+                onDateSelected = { selectedDate ->
+                    // Navigate to DetailsScreen with the selected date as an argument
+                    navController.navigate("details/$selectedDate") {
+                        popUpTo(Destinations.HOME.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
@@ -42,39 +53,28 @@ fun WeatherAppScreensNavHost(
                     }
                 }
             })
-
-            /*val settingsViewModel = hiltViewModel<SettingsViewModel>()
-            val state = settingsViewModel
-                .state
-                .collectAsState(initial = SettingsScreenViewState())
-                .value
-
-            settingsViewModel.processIntent(SettingsScreenIntent.LoadSettingScreenData)
-
-            SettingsScreen(
-                state = state,
-                onBackButtonClicked = { navController.navigate(Destinations.HOME.route) },
-                onLanguageChanged = { selectedLanguage ->
-                    settingsViewModel.processIntent(
-                        SettingsScreenIntent.ChangeLanguage(
-                            selectedLanguage
-                        )
-                    )
-                },
-                onUnitChanged = { selectedUnit ->
-                    settingsViewModel.processIntent(SettingsScreenIntent.ChangeUnits(selectedUnit))
-                },
-                onTimeFormatChanged = { selectedFormat ->
-                    settingsViewModel.processIntent(
-                        SettingsScreenIntent.ChangeTimeFormat(selectedFormat)
-                    )
+        }
+        composable(
+            route = "details/{selectedDate}",
+            arguments = listOf(navArgument("selectedDate") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val selectedDate = backStackEntry.arguments?.getString("selectedDate") ?: ""
+            DetailsScreen(
+                selectedDate = selectedDate,
+                onBackButtonClicked = {
+                    navController.navigate(Destinations.HOME.route) {
+                        popUpTo(Destinations.SETTINGS.route) {
+                            inclusive = true
+                        }
+                    }
                 }
-            )*/
+            )
         }
     }
 }
 
 enum class Destinations(val route: String) {
     HOME("home"),
-    SETTINGS("settings")
+    SETTINGS("settings"),
+    DETAILS("details/{selectedDate}")
 }
