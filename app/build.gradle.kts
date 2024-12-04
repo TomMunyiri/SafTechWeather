@@ -130,4 +130,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     //kizoiton calendat
     implementation(libs.kizitonwose.calendar)
+    //room db encryption
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.android.database.sqlcipher)
 }

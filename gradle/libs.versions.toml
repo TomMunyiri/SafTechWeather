@@ -44,6 +44,8 @@ himanshoe-kalendar = "1.3.2"
 kotlinx-datetime = "0.6.1"
 compose-animation = "1.7.5"
 kizitonwose-calendar = "2.6.0"
+androidx-security-crypto="1.0.0"
+android-database-sqlcipher="4.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -108,6 +110,8 @@ datastore = { group = "androidx.datastore", name = "datastore-preferences", vers
 himanshoe-kalendar = { group = "com.himanshoe", name = "kalendar", version.ref = "himanshoe-kalendar" }
 kizitonwose-calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "kizitonwose-calendar" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "androidx-security-crypto" }
+android-database-sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "android-database-sqlcipher" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
