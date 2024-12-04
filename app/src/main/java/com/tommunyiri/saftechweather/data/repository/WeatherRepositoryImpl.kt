@@ -1,5 +1,6 @@
 package com.tommunyiri.saftechweather.data.repository
 
+import android.util.Log
 import com.tommunyiri.saftechweather.core.di.scope.IoDispatcher
 import com.tommunyiri.saftechweather.core.utils.Result
 import com.tommunyiri.saftechweather.data.mappers.WeatherForecastMapperLocal
@@ -80,13 +81,14 @@ constructor(
         }
 
     override suspend fun getForecastData(
-        query: String, date: String, url: String, refresh: Boolean
+        query: String, date: String, refresh: Boolean
     ): Result<List<Forecastday>?> =
         withContext(ioDispatcher) {
             if (refresh) {
                 val mapper = WeatherForecastMapperRemote()
-                when (val response = remoteDataSource.getWeatherForecast(query, date, url)) {
+                when (val response = remoteDataSource.getWeatherForecast(query, date)) {
                     is Result.Success -> {
+                        Log.d("TAG", "getWeatherForecast: Success: ${response}")
                         if (response.data != null) {
                             Result.Success(mapper.transformToDomain(response.data))
                         } else {
@@ -95,6 +97,7 @@ constructor(
                     }
 
                     is Result.Error -> {
+                        Log.d("TAG", "getWeatherForecast: Exception: ${response.exception}")
                         Result.Error(response.exception)
                     }
 

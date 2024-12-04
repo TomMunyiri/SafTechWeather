@@ -8,7 +8,6 @@ interface WeatherRemoteDataSource {
     suspend fun getCurrentWeather(query: String): Result<NetworkWeatherResponse>
     suspend fun getWeatherForecast(
         query: String,
-        date: String,
-        url: String
+        date: String
     ): Result<List<NetworkForecastday>>
 }

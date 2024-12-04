@@ -1,5 +1,9 @@
 package com.tommunyiri.saftechweather.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Hour(
     val chance_of_rain: Int,
     val chance_of_snow: Int,
@@ -34,4 +38,4 @@ data class Hour(
     val wind_mph: Double,
     val windchill_c: Double,
     val windchill_f: Double
-)
+) : Parcelable

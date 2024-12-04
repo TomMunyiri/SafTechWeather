@@ -2,8 +2,8 @@ package com.tommunyiri.saftechweather.presentation.screens.settings
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.tommunyiri.saftechweather.presentation.components.TopAppBarComponent
 import com.tommunyiri.saftechweather.R
+import com.tommunyiri.saftechweather.presentation.components.TopAppBarComponent
 
 
 /**

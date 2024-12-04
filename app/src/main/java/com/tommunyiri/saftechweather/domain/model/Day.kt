@@ -1,6 +1,7 @@
 package com.tommunyiri.saftechweather.domain.model
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -8,8 +9,9 @@ data class Day(
     val avghumidity: Double,
     val avgtemp_c: Double,
     val avgtemp_f: Double,
-    val avgvis_km: NetworkCondition,
+    val avgvis_km: Double,
     val avgvis_miles: Double,
+    @Embedded
     val condition: Condition,
     val maxtemp_c: Double,
     val maxtemp_f: Double,

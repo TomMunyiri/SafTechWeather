@@ -2,7 +2,6 @@ package com.tommunyiri.saftechweather.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.saftechweather.core.utils.Result
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Date
 import javax.inject.Inject
 
@@ -74,11 +72,6 @@ class HomeScreenViewModel @Inject constructor(
         return dateFormat.format(date)
     }
 
-    @SuppressLint("NewApi")
-    fun getSelectedDate(selectedDate: LocalDate){
-        Log.d("TAG", "getSelectedDate: ${selectedDate.dayOfMonth}")
-    }
-
     private fun setState(stateReducer: HomeScreenState.() -> HomeScreenState) {
         viewModelScope.launch {
             _homeScreenState.emit(stateReducer(homeScreenState.value))
@@ -95,7 +88,6 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = weatherUseCases.getWeather(locationModel, false)) {
                 is Result.Success -> {
-                    Log.d("TAG", "getWeather: initial SUCCESS: ${result.data?.cloud}")
                     if (result.data != null) {
                         val weather = result.data
                         setState { copy(isLoading = false, weather = weather, error = null) }
@@ -105,7 +97,6 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Error -> {
-                    Log.d("TAG", "getWeather: ERROR")
                     setState {
                         copy(
                             isRefreshing = false,
@@ -116,7 +107,6 @@ class HomeScreenViewModel @Inject constructor(
                 }
 
                 is Result.Loading -> {
-                    Log.d("TAG", "getWeather: LOADING")
                     setState { copy(isLoading = true, error = null) }
                 }
             }
@@ -133,7 +123,6 @@ class HomeScreenViewModel @Inject constructor(
             when (val result = weatherUseCases.getWeather(locationModel, true)) {
                 is Result.Success -> {
                     if (result.data != null) {
-                        Log.d("TAG", "getWeather: refresh SUCCESS: ${result.data?.cloud}")
                         setState {
                             copy(
                                 isLoading = false,

@@ -17,10 +17,9 @@ interface WeatherApiService {
         @Query("q") location: String,
     ): Response<NetworkWeatherResponse>
 
-    @GET("{url}")
+    @GET("future.json")
     suspend fun getWeatherForecast(
         @Query("q") location: String,
         @Query("dt") date: String,
-        @Path("url") url: String
     ): Response<NetworkHourlyWeatherResponse>
 }

@@ -1,5 +1,6 @@
 package com.tommunyiri.saftechweather.data.sources.remote
 
+import android.util.Log
 import com.tommunyiri.saftechweather.core.di.scope.IoDispatcher
 import com.tommunyiri.saftechweather.core.utils.Result
 import com.tommunyiri.saftechweather.data.sources.remote.retrofit.WeatherApiService
@@ -34,12 +35,11 @@ constructor(
 
     override suspend fun getWeatherForecast(
         query: String,
-        date: String,
-        url: String
+        date: String
     ): Result<List<NetworkForecastday>> =
         withContext(ioDispatcher) {
             return@withContext try {
-                val result = apiService.getWeatherForecast(query, date, url)
+                val result = apiService.getWeatherForecast(query, date)
                 if (result.isSuccessful) {
                     val networkWeatherForecast = result.body()?.forecast?.forecastday
                     Result.Success(networkWeatherForecast)

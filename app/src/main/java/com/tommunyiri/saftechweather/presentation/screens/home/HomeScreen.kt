@@ -24,6 +24,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -77,13 +78,11 @@ fun HomeScreen(
     onDateSelected: (String) -> Unit,
     adjacentMonths: Long = 500
 ) {
-    val homeViewModel = hiltViewModel<HomeScreenViewModel>()
-
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
 
     var cityName by remember { mutableStateOf("") }
 
-    homeViewModel.processIntent(HomeScreenIntent.GetCurrentTimeDate)
+    viewModel.processIntent(HomeScreenIntent.GetCurrentTimeDate)
 
     if (state.isLoading) {
         LoadingIndicator()
@@ -95,11 +94,17 @@ fun HomeScreen(
             longitude = state.defaultLocation.longitude
         ) { address ->
             cityName = address.locality.toString()
-            homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
+            //viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
+
         }
+
+        LaunchedEffect(key1 = cityName) {
+            viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
+        }
+
         HomeTopBar(
             onSettingClicked,
-            onRefreshClicked = { homeViewModel.processIntent(HomeScreenIntent.RefreshWeatherData) })
+            onRefreshClicked = { viewModel.processIntent(HomeScreenIntent.RefreshWeatherData) })
         TopHeader(cityName, currentTimeDate = state.currentSystemTime, state)
 
         //
@@ -136,7 +141,6 @@ fun HomeScreen(
             state = state,
             dayContent = { day ->
                 Day(day, isSelected = selections.contains(day)) { clicked ->
-                    homeViewModel.getSelectedDate(clicked.date)
                     onDateSelected.invoke("${clicked.date.year}-${clicked.date.monthValue}-${clicked.date.dayOfMonth}")
                     if (selections.contains(clicked)) {
                         selections.remove(clicked)

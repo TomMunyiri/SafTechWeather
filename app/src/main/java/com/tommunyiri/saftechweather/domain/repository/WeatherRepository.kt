@@ -24,7 +24,6 @@ interface WeatherRepository {
     suspend fun getForecastData(
         query: String,
         date: String,
-        url: String,
         refresh: Boolean
     ): Result<List<Forecastday>?>
 
