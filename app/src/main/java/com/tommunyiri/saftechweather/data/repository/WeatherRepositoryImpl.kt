@@ -1,20 +1,19 @@
 package com.tommunyiri.saftechweather.data.repository
 
 import com.tommunyiri.saftechweather.core.di.scope.IoDispatcher
-import com.tommunyiri.saftechweather.data.sources.local.database.WeatherLocalDataSource
-import com.tommunyiri.saftechweather.data.sources.remote.WeatherRemoteDataSource
-import com.tommunyiri.saftechweather.domain.repository.WeatherRepository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
 import com.tommunyiri.saftechweather.core.utils.Result
 import com.tommunyiri.saftechweather.data.mappers.WeatherForecastMapperLocal
 import com.tommunyiri.saftechweather.data.mappers.WeatherForecastMapperRemote
 import com.tommunyiri.saftechweather.data.mappers.WeatherMapperLocal
 import com.tommunyiri.saftechweather.data.mappers.WeatherMapperRemote
+import com.tommunyiri.saftechweather.data.sources.local.database.WeatherLocalDataSource
+import com.tommunyiri.saftechweather.data.sources.remote.WeatherRemoteDataSource
 import com.tommunyiri.saftechweather.domain.model.CurrentWeather
 import com.tommunyiri.saftechweather.domain.model.Forecastday
-import com.tommunyiri.saftechweather.domain.model.NetworkCurrentWeather
+import com.tommunyiri.saftechweather.domain.repository.WeatherRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Created by Tom Munyiri on 03/12/2024.
