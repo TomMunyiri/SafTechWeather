@@ -28,9 +28,6 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
                         }
                     }
                 },
-                onTryAgainClicked = {
-                    // homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
-                },
                 onDateSelected = { selectedDate ->
                     // Navigate to DetailsScreen with the selected date as an argument
                     navController.navigate("details/$selectedDate") {

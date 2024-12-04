@@ -74,7 +74,6 @@ import java.time.YearMonth
 fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
     onSettingClicked: () -> Unit,
-    onTryAgainClicked: () -> Unit,
     onDateSelected: (String) -> Unit,
     adjacentMonths: Long = 500,
 ) {
@@ -94,7 +93,6 @@ fun HomeScreen(
             longitude = state.defaultLocation.longitude,
         ) { address ->
             cityName = address.locality.toString()
-            // viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
         }
 
         LaunchedEffect(key1 = cityName) {
@@ -293,10 +291,6 @@ fun HomeTopBar(
                 .padding(16.dp)
                 .fillMaxWidth(),
     ) {
-        /*Text(
-            text = cityName,
-            style = MaterialTheme.typography.headlineLarge
-        )*/
         Image(
             painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_refresh_dark else R.drawable.ic_refresh),
             contentDescription = stringResource(R.string.home_content_description_refresh_icon),
