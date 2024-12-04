@@ -26,10 +26,9 @@ interface SettingsRepository {
 
     suspend fun setFormat(format: String)
 
-    fun getFormats() : List<String>
+    fun getFormats(): List<String>
 
     suspend fun setDefaultTempUnit(prefTempUnit: String)
 
-    suspend fun getDefaultTempUnit():Flow<String>
-
+    suspend fun getDefaultTempUnit(): Flow<String>
 }

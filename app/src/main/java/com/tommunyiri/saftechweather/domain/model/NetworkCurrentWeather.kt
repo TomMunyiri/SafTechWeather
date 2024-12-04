@@ -33,5 +33,5 @@ data class NetworkCurrentWeather(
     val wind_kph: Double,
     val wind_mph: Double,
     val windchill_c: Double,
-    val windchill_f: Double
+    val windchill_f: Double,
 ) : Parcelable

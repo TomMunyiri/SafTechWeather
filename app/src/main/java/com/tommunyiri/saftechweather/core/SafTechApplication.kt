@@ -5,7 +5,6 @@ import com.tommunyiri.saftechweather.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-
 /**
  * Created by Tom Munyiri on 02/12/2024.
  * Company:

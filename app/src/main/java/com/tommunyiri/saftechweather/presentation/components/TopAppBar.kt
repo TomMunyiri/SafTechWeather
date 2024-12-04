@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TopAppBarComponent(
     title: String,
-    onBackButtonClick: () -> Unit
+    onBackButtonClick: () -> Unit,
 ) {
     TopAppBar(
-        modifier = Modifier.padding(top=0.dp),
+        modifier = Modifier.padding(top = 0.dp),
         title = { Text(title) },
         navigationIcon = {
             IconButton(onClick = { onBackButtonClick() }) { // Handle back press
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
-        }
+        },
     )
 }

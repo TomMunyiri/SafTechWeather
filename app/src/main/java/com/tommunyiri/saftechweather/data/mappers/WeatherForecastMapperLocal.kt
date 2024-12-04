@@ -12,7 +12,7 @@ class WeatherForecastMapperLocal : BaseMapper<List<DBForecastday>, List<Forecast
                 dbWeatherForecast.date,
                 dbWeatherForecast.date_epoch,
                 dbWeatherForecast.day,
-                dbWeatherForecast.hour
+                dbWeatherForecast.hour,
             )
         }
     }
@@ -24,7 +24,7 @@ class WeatherForecastMapperLocal : BaseMapper<List<DBForecastday>, List<Forecast
                 weatherForecast.date,
                 weatherForecast.date_epoch,
                 weatherForecast.day,
-                weatherForecast.hour
+                weatherForecast.hour,
             )
         }
     }

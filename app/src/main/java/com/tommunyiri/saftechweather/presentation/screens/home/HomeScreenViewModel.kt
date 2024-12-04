@@ -26,140 +26,141 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository,
-    private val weatherUseCases: WeatherUseCases
-) : ViewModel() {
-    private val _homeScreenState = MutableStateFlow(HomeScreenState())
-    val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
+class HomeScreenViewModel
+    @Inject
+    constructor(
+        private val settingsRepository: SettingsRepository,
+        private val weatherUseCases: WeatherUseCases,
+    ) : ViewModel() {
+        private val _homeScreenState = MutableStateFlow(HomeScreenState())
+        val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            combine(
-                settingsRepository.getLanguage(),
-                settingsRepository.getDefaultTempUnit(),
-                settingsRepository.getDefaultLocation()
-            ) { language, prefTempUnit, defaultLocation ->
-                Triple(language, prefTempUnit, defaultLocation)
-            }.collect { (language, prefTempUnit, defaultLocation) ->
-                setState {
-                    copy(defaultLocation = defaultLocation, prefTempUnit = prefTempUnit)
-                }
-            }
-        }
-    }
-
-    fun processIntent(homeScreenIntent: HomeScreenIntent) {
-        when (homeScreenIntent) {
-            is HomeScreenIntent.LoadWeatherData ->
-                getWeather(homeScreenState.value.defaultLocation)
-
-            is HomeScreenIntent.GetCurrentTimeDate ->
-                setState { copy(currentSystemTime = getCurrentSystemTime()) }
-
-            HomeScreenIntent.RefreshWeatherData ->
-                refreshWeather(homeScreenState.value.defaultLocation)
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun getCurrentSystemTime(): String {
-        val currentTime = System.currentTimeMillis()
-        val date = Date(currentTime)
-        val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
-        return dateFormat.format(date)
-    }
-
-    private fun setState(stateReducer: HomeScreenState.() -> HomeScreenState) {
-        viewModelScope.launch {
-            _homeScreenState.emit(stateReducer(homeScreenState.value))
-        }
-    }
-
-    /**
-     *This attempts to get the [Weather] from the local data source,
-     * if the result is null, it gets from the remote source.
-     * @see refreshWeather
-     */
-    private fun getWeather(locationModel: LocationModel) {
-        setIsWeatherLoading()
-        viewModelScope.launch {
-            when (val result = weatherUseCases.getWeather(locationModel, false)) {
-                is Result.Success -> {
-                    if (result.data != null) {
-                        val weather = result.data
-                        setState { copy(isLoading = false, weather = weather, error = null) }
-                    } else {
-                        refreshWeather(locationModel)
-                    }
-                }
-
-                is Result.Error -> {
+        init {
+            viewModelScope.launch {
+                combine(
+                    settingsRepository.getLanguage(),
+                    settingsRepository.getDefaultTempUnit(),
+                    settingsRepository.getDefaultLocation(),
+                ) { language, prefTempUnit, defaultLocation ->
+                    Triple(language, prefTempUnit, defaultLocation)
+                }.collect { (language, prefTempUnit, defaultLocation) ->
                     setState {
-                        copy(
-                            isRefreshing = false,
-                            isLoading = false,
-                            error = result.exception.toString()
-                        )
+                        copy(defaultLocation = defaultLocation, prefTempUnit = prefTempUnit)
                     }
-                }
-
-                is Result.Loading -> {
-                    setState { copy(isLoading = true, error = null) }
                 }
             }
         }
-    }
 
-    /**
-     * This is called when the user swipes down to refresh.
-     * This enables the [Weather] for the current [location] to be received.
-     */
-    private fun refreshWeather(locationModel: LocationModel) {
-        setIsWeatherLoading()
-        viewModelScope.launch {
-            when (val result = weatherUseCases.getWeather(locationModel, true)) {
-                is Result.Success -> {
-                    if (result.data != null) {
+        fun processIntent(homeScreenIntent: HomeScreenIntent) {
+            when (homeScreenIntent) {
+                is HomeScreenIntent.LoadWeatherData ->
+                    getWeather(homeScreenState.value.defaultLocation)
+
+                is HomeScreenIntent.GetCurrentTimeDate ->
+                    setState { copy(currentSystemTime = getCurrentSystemTime()) }
+
+                HomeScreenIntent.RefreshWeatherData ->
+                    refreshWeather(homeScreenState.value.defaultLocation)
+            }
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        private fun getCurrentSystemTime(): String {
+            val currentTime = System.currentTimeMillis()
+            val date = Date(currentTime)
+            val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
+            return dateFormat.format(date)
+        }
+
+        private fun setState(stateReducer: HomeScreenState.() -> HomeScreenState) {
+            viewModelScope.launch {
+                _homeScreenState.emit(stateReducer(homeScreenState.value))
+            }
+        }
+
+        /**
+         *This attempts to get the [Weather] from the local data source,
+         * if the result is null, it gets from the remote source.
+         * @see refreshWeather
+         */
+        private fun getWeather(locationModel: LocationModel) {
+            setIsWeatherLoading()
+            viewModelScope.launch {
+                when (val result = weatherUseCases.getWeather(locationModel, false)) {
+                    is Result.Success -> {
+                        if (result.data != null) {
+                            val weather = result.data
+                            setState { copy(isLoading = false, weather = weather, error = null) }
+                        } else {
+                            refreshWeather(locationModel)
+                        }
+                    }
+
+                    is Result.Error -> {
                         setState {
                             copy(
+                                isRefreshing = false,
                                 isLoading = false,
-                                weather = result.data,
-                                error = null,
+                                error = result.exception.toString(),
                             )
                         }
-                    } else {
-                        setState {
-                            copy(isLoading = false, error = "No weather data")
-                        }
+                    }
+
+                    is Result.Loading -> {
+                        setState { copy(isLoading = true, error = null) }
                     }
                 }
+            }
+        }
 
-                is Result.Error ->
-                    setState {
-                        copy(
-                            isRefreshing = false,
-                            isLoading = false,
-                            error = result.exception.toString(),
-                        )
+        /**
+         * This is called when the user swipes down to refresh.
+         * This enables the [Weather] for the current [location] to be received.
+         */
+        private fun refreshWeather(locationModel: LocationModel) {
+            setIsWeatherLoading()
+            viewModelScope.launch {
+                when (val result = weatherUseCases.getWeather(locationModel, true)) {
+                    is Result.Success -> {
+                        if (result.data != null) {
+                            setState {
+                                copy(
+                                    isLoading = false,
+                                    weather = result.data,
+                                    error = null,
+                                )
+                            }
+                        } else {
+                            setState {
+                                copy(isLoading = false, error = "No weather data")
+                            }
+                        }
                     }
 
-                is Result.Loading ->
-                    setState { copy(isLoading = true) }
+                    is Result.Error ->
+                        setState {
+                            copy(
+                                isRefreshing = false,
+                                isLoading = false,
+                                error = result.exception.toString(),
+                            )
+                        }
+
+                    is Result.Loading ->
+                        setState { copy(isLoading = true) }
+                }
+            }
+        }
+
+        private fun setIsWeatherLoading() {
+            _homeScreenState.update { currentState ->
+                currentState.copy(
+                    isLoading = true,
+                    isRefreshing = true,
+                )
             }
         }
     }
-
-    private fun setIsWeatherLoading() {
-        _homeScreenState.update { currentState ->
-            currentState.copy(
-                isLoading = true,
-                isRefreshing = true,
-            )
-        }
-    }
-
-}
 
 data class HomeScreenState(
 //    val weatherForecastList: List<WeatherForecast>? = null,

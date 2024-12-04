@@ -76,7 +76,7 @@ fun HomeScreen(
     onSettingClicked: () -> Unit,
     onTryAgainClicked: () -> Unit,
     onDateSelected: (String) -> Unit,
-    adjacentMonths: Long = 500
+    adjacentMonths: Long = 500,
 ) {
     val state by viewModel.homeScreenState.collectAsStateWithLifecycle()
 
@@ -91,11 +91,10 @@ fun HomeScreen(
     Column(modifier = Modifier.fillMaxSize()) {
         LocalContext.current.getCityName(
             latitude = state.defaultLocation.latitude,
-            longitude = state.defaultLocation.longitude
+            longitude = state.defaultLocation.longitude,
         ) { address ->
             cityName = address.locality.toString()
-            //viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
-
+            // viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
         }
 
         LaunchedEffect(key1 = cityName) {
@@ -104,7 +103,8 @@ fun HomeScreen(
 
         HomeTopBar(
             onSettingClicked,
-            onRefreshClicked = { viewModel.processIntent(HomeScreenIntent.RefreshWeatherData) })
+            onRefreshClicked = { viewModel.processIntent(HomeScreenIntent.RefreshWeatherData) },
+        )
         TopHeader(cityName, currentTimeDate = state.currentSystemTime, state)
 
         //
@@ -114,12 +114,13 @@ fun HomeScreen(
         val selections = remember { mutableStateListOf<CalendarDay>() }
         val daysOfWeek = remember { daysOfWeek() }
 
-        val state = rememberCalendarState(
-            startMonth = startMonth,
-            endMonth = endMonth,
-            firstVisibleMonth = currentMonth,
-            firstDayOfWeek = daysOfWeek.first(),
-        )
+        val state =
+            rememberCalendarState(
+                startMonth = startMonth,
+                endMonth = endMonth,
+                firstVisibleMonth = currentMonth,
+                firstDayOfWeek = daysOfWeek.first(),
+            )
         val coroutineScope = rememberCoroutineScope()
         val visibleMonth = rememberFirstMostVisibleMonth(state, viewportPercent = 90f)
         SimpleCalendarTitle(
@@ -154,7 +155,6 @@ fun HomeScreen(
             },
         )
         //
-
     }
 }
 
@@ -177,9 +177,10 @@ fun SimpleCalendarTitle(
             isHorizontal = isHorizontal,
         )
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .testTag("MonthTitle"),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .testTag("MonthTitle"),
             text = currentMonth.displayText(),
             fontSize = 22.sp,
             textAlign = TextAlign.Center,
@@ -201,22 +202,24 @@ private fun CalendarNavigationIcon(
     isHorizontal: Boolean = true,
     onClick: () -> Unit,
 ) = Box(
-    modifier = Modifier
-        .fillMaxHeight()
-        .aspectRatio(1f)
-        .clip(shape = CircleShape)
-        .clickable(role = Role.Button, onClick = onClick),
+    modifier =
+        Modifier
+            .fillMaxHeight()
+            .aspectRatio(1f)
+            .clip(shape = CircleShape)
+            .clickable(role = Role.Button, onClick = onClick),
 ) {
     val rotation by animateFloatAsState(
         targetValue = if (isHorizontal) 0f else 90f,
         label = "CalendarNavigationIconAnimation",
     )
     Icon(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(4.dp)
-            .align(Alignment.Center)
-            .rotate(rotation),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(4.dp)
+                .align(Alignment.Center)
+                .rotate(rotation),
         imageVector = imageVector,
         contentDescription = contentDescription,
     )
@@ -225,9 +228,10 @@ private fun CalendarNavigationIcon(
 @Composable
 private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .testTag("MonthHeader"),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .testTag("MonthHeader"),
     ) {
         for (dayOfWeek in daysOfWeek) {
             Text(
@@ -243,27 +247,33 @@ private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
 
 @SuppressLint("NewApi")
 @Composable
-private fun Day(day: CalendarDay, isSelected: Boolean, onClick: (CalendarDay) -> Unit) {
+private fun Day(
+    day: CalendarDay,
+    isSelected: Boolean,
+    onClick: (CalendarDay) -> Unit,
+) {
     Box(
-        modifier = Modifier
-            .aspectRatio(1f) // This is important for square-sizing!
-            .testTag("MonthDay")
-            .padding(6.dp)
-            .clip(CircleShape)
-            .background(color = if (isSelected) colorResource(R.color.purple_200) else Color.Transparent)
-            // Disable clicks on inDates/outDates
-            .clickable(
-                enabled = day.position == DayPosition.MonthDate,
-                showRipple = !isSelected,
-                onClick = { onClick(day) },
-            ),
+        modifier =
+            Modifier
+                .aspectRatio(1f) // This is important for square-sizing!
+                .testTag("MonthDay")
+                .padding(6.dp)
+                .clip(CircleShape)
+                .background(color = if (isSelected) colorResource(R.color.purple_200) else Color.Transparent)
+                // Disable clicks on inDates/outDates
+                .clickable(
+                    enabled = day.position == DayPosition.MonthDate,
+                    showRipple = !isSelected,
+                    onClick = { onClick(day) },
+                ),
         contentAlignment = Alignment.Center,
     ) {
-        val textColor = when (day.position) {
-            // Color.Unspecified will use the default text color from the current theme
-            DayPosition.MonthDate -> if (isSelected) Color.White else Color.Unspecified
-            DayPosition.InDate, DayPosition.OutDate -> colorResource(R.color.purple_200)
-        }
+        val textColor =
+            when (day.position) {
+                // Color.Unspecified will use the default text color from the current theme
+                DayPosition.MonthDate -> if (isSelected) Color.White else Color.Unspecified
+                DayPosition.InDate, DayPosition.OutDate -> colorResource(R.color.purple_200)
+            }
         Text(
             text = day.date.dayOfMonth.toString(),
             color = textColor,
@@ -273,11 +283,15 @@ private fun Day(day: CalendarDay, isSelected: Boolean, onClick: (CalendarDay) ->
 }
 
 @Composable
-fun HomeTopBar(onSettingClicked: () -> Unit, onRefreshClicked: () -> Unit) {
+fun HomeTopBar(
+    onSettingClicked: () -> Unit,
+    onRefreshClicked: () -> Unit,
+) {
     Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
     ) {
         /*Text(
             text = cityName,
@@ -286,26 +300,30 @@ fun HomeTopBar(onSettingClicked: () -> Unit, onRefreshClicked: () -> Unit) {
         Image(
             painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_refresh_dark else R.drawable.ic_refresh),
             contentDescription = stringResource(R.string.home_content_description_refresh_icon),
-            modifier = Modifier
-                .defaultMinSize(40.dp)
-                .clickable { onRefreshClicked() }
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .defaultMinSize(40.dp)
+                    .clickable { onRefreshClicked() }
+                    .padding(8.dp),
         )
         Spacer(modifier = Modifier.weight(1.0f))
         Image(
             painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
             contentDescription = stringResource(R.string.home_content_description_setting_icon),
-            modifier = Modifier
-                .defaultMinSize(40.dp)
-                .clickable { onSettingClicked() }
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .defaultMinSize(40.dp)
+                    .clickable { onSettingClicked() }
+                    .padding(8.dp),
         )
     }
 }
 
 @Composable
 fun TopHeader(
-    cityName: String, currentTimeDate: String, state: HomeScreenState
+    cityName: String,
+    currentTimeDate: String,
+    state: HomeScreenState,
 ) {
     Box(
         modifier =
@@ -337,9 +355,14 @@ fun TopHeader(
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = if (state.prefTempUnit == stringResource(R.string.temp_unit_celsius)) "${state.weather?.temp_c} ${
-                    stringResource(R.string.temp_symbol_celsius)
-                } " else "${state.weather?.temp_f} ${stringResource(R.string.temp_symbol_fahrenheit)}",
+                text =
+                    if (state.prefTempUnit == stringResource(R.string.temp_unit_celsius)) {
+                        "${state.weather?.temp_c} ${
+                            stringResource(R.string.temp_symbol_celsius)
+                        } "
+                    } else {
+                        "${state.weather?.temp_f} ${stringResource(R.string.temp_symbol_fahrenheit)}"
+                    },
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,
                 modifier =

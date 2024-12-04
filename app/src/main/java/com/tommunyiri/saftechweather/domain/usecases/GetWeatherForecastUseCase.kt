@@ -8,7 +8,9 @@ import com.tommunyiri.saftechweather.domain.repository.WeatherRepository
 
 class GetWeatherForecastUseCase(private val weatherRepository: WeatherRepository) {
     suspend operator fun invoke(
-        location: LocationModel, date: String, refresh: Boolean
+        location: LocationModel,
+        date: String,
+        refresh: Boolean,
     ): Result<List<Forecastday>?> {
         val query = "${location.latitude},${location.longitude}"
         val result = weatherRepository.getForecastData(query, date, refresh)
@@ -28,7 +30,7 @@ class GetWeatherForecastUseCase(private val weatherRepository: WeatherRepository
 
                     is Result.Loading -> {}
                 }
-            }catch (exception: Exception){
+            } catch (exception: Exception) {
                 Log.d("TAG", "getWeatherForecast: ERROR $exception")
             }
         }

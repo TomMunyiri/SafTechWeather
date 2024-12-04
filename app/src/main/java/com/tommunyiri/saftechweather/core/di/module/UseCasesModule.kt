@@ -18,7 +18,7 @@ class UseCasesModule {
     fun provideWeatherUseCases(weatherRepository: WeatherRepository): WeatherUseCases {
         return WeatherUseCases(
             getWeather = GetWeatherUseCase(weatherRepository),
-            getWeatherForecast = GetWeatherForecastUseCase(weatherRepository)
+            getWeatherForecast = GetWeatherForecastUseCase(weatherRepository),
         )
     }
 }

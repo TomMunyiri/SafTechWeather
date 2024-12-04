@@ -51,13 +51,14 @@ class MainActivity : ComponentActivity() {
         }
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         createLocationRequest(
             activity = this,
-            locationRequestLauncher = locationRequestLauncher
+            locationRequestLauncher = locationRequestLauncher,
         ) {
             mainViewModel.processIntent(MainViewIntent.CheckLocationSettings(isEnabled = true))
         }
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
                             },
                             onPermissionDenied = {
                                 OnPermissionDenied(activityPermissionResult = permissionRequestLauncher)
-                            }
+                            },
                         )
 
                         InitMainScreen(state)
@@ -96,8 +97,8 @@ class MainActivity : ComponentActivity() {
                             mainViewModel.processIntent(
                                 MainViewIntent.ReceiveLocation(
                                     longitude = location.longitude,
-                                    latitude = location.latitude
-                                )
+                                    latitude = location.latitude,
+                                ),
                             )
                         }
                     }
@@ -115,14 +116,16 @@ class MainActivity : ComponentActivity() {
             else -> LoadingIndicator()
         }
     }
-
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(
+    name: String,
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = "Hello $name!",
-        modifier = modifier
+        modifier = modifier,
     )
 }
 

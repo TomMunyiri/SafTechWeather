@@ -16,11 +16,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class DatabaseModule {
-
     @Provides
     @Singleton
-    fun provideWeatherDatabasePassphrase(@ApplicationContext context: Context) =
-        WeatherDatabasePassphrase(context)
+    fun provideWeatherDatabasePassphrase(
+        @ApplicationContext context: Context,
+    ) = WeatherDatabasePassphrase(context)
 
     @Provides
     @Singleton
@@ -31,7 +31,7 @@ class DatabaseModule {
     @Provides
     fun provideDatabase(
         @ApplicationContext context: Context,
-        supportFactory: SupportFactory
+        supportFactory: SupportFactory,
     ): WeatherDatabase {
         return Room.databaseBuilder(context, WeatherDatabase::class.java, "SafTechWeather.db")
             .fallbackToDestructiveMigration()

@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -41,7 +42,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
             )
         }
     }
@@ -110,27 +112,27 @@ dependencies {
     implementation(libs.timber)
     // lifecycle livedata ktx
     implementation(libs.lifecycle.livedata.ktx)
-    //testing
+    // testing
     implementation(libs.mockito.core)
     // hamcrest
     testImplementation(libs.hamcrest)
     // roboelectric
     testImplementation(libs.roboelectric)
-    //compose
+    // compose
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
-    //datastore
+    // datastore
     implementation(libs.datastore)
-    //compose calendar
+    // compose calendar
     implementation(libs.himanshoe.kalendar)
     implementation(libs.kotlinx.datetime)
-    //kizoiton calendat
+    // kizoiton calendat
     implementation(libs.kizitonwose.calendar)
-    //room db encryption
+    // room db encryption
     implementation(libs.androidx.security.crypto)
     implementation(libs.android.database.sqlcipher)
 }

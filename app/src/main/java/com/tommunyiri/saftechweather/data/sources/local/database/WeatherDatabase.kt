@@ -9,7 +9,7 @@ import com.tommunyiri.saftechweather.data.sources.local.database.entity.DBForeca
 import com.tommunyiri.saftechweather.data.sources.local.database.typeconverters.ListNetworkHourConverter
 
 @Database(
-    entities = [DBCurrentWeather::class,DBForecastday::class],
+    entities = [DBCurrentWeather::class, DBForecastday::class],
     version = 2,
     exportSchema = true,
 )

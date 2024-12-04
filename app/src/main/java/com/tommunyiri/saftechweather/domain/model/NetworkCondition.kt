@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class NetworkCondition(
     val code: Int,
     val icon: String,
-    val text: String
-): Parcelable
+    val text: String,
+) : Parcelable

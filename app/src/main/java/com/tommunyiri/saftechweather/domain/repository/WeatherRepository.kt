@@ -4,7 +4,6 @@ import com.tommunyiri.saftechweather.core.utils.Result
 import com.tommunyiri.saftechweather.domain.model.CurrentWeather
 import com.tommunyiri.saftechweather.domain.model.Forecastday
 
-
 /**
  * Created by Tom Munyiri on 03/12/2024.
  * Company:
@@ -12,7 +11,8 @@ import com.tommunyiri.saftechweather.domain.model.Forecastday
  */
 interface WeatherRepository {
     suspend fun getCurrentWeather(
-        location: String, refresh: Boolean
+        location: String,
+        refresh: Boolean,
     ): Result<CurrentWeather>
 
     suspend fun storeWeatherData(weather: CurrentWeather)
@@ -24,7 +24,7 @@ interface WeatherRepository {
     suspend fun getForecastData(
         query: String,
         date: String,
-        refresh: Boolean
+        refresh: Boolean,
     ): Result<List<Forecastday>?>
 
     suspend fun deleteForecastData()

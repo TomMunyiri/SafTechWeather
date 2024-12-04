@@ -5,7 +5,6 @@ import com.tommunyiri.saftechweather.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-
 /**
  * Created by Tom Munyiri on 03/12/2024.
  * Company:
@@ -13,8 +12,9 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class SettingsScreenViewModel @Inject constructor(
-    //private val weatherRepository: WeatherRepository,
-    private val settingsRepository: SettingsRepository
-): ViewModel() {
-}
+class SettingsScreenViewModel
+    @Inject
+    constructor(
+        // private val weatherRepository: WeatherRepository,
+        private val settingsRepository: SettingsRepository,
+    ) : ViewModel()

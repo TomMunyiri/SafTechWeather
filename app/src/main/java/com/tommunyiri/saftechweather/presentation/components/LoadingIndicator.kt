@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
 /**
  * Created by Tom Munyiri on 03/12/2024.
  * Company:
@@ -22,9 +21,10 @@ fun LoadingIndicator() {
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.weight(1.0f))
         CircularProgressIndicator(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally),
         )
         Spacer(modifier = Modifier.weight(1.0f))
     }

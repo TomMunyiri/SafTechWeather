@@ -3,7 +3,6 @@ package com.tommunyiri.saftechweather.data.mappers
 import com.tommunyiri.saftechweather.domain.model.CurrentWeather
 import com.tommunyiri.saftechweather.domain.model.NetworkCurrentWeather
 
-
 /**
  * Created by Tom Munyiri on 19/01/2024.
  * Company: Eclectics International Ltd
@@ -40,7 +39,7 @@ class WeatherMapperRemote : BaseMapper<NetworkCurrentWeather, CurrentWeather> {
             wind_kph = type.wind_kph,
             wind_mph = type.wind_mph,
             windchill_c = type.windchill_c,
-            windchill_f = type.windchill_f
+            windchill_f = type.windchill_f,
         )
 
     override fun transformToDto(type: CurrentWeather): NetworkCurrentWeather =
@@ -73,6 +72,6 @@ class WeatherMapperRemote : BaseMapper<NetworkCurrentWeather, CurrentWeather> {
             wind_kph = type.wind_kph,
             wind_mph = type.wind_mph,
             windchill_c = type.windchill_c,
-            windchill_f = type.windchill_f
+            windchill_f = type.windchill_f,
         )
 }

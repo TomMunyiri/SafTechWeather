@@ -12,7 +12,7 @@ class WeatherForecastMapperRemote :
                 networkWeatherForecast.date,
                 networkWeatherForecast.date_epoch,
                 networkWeatherForecast.day,
-                networkWeatherForecast.hour
+                networkWeatherForecast.hour,
             )
         }
     }
@@ -24,7 +24,7 @@ class WeatherForecastMapperRemote :
                 weatherForecast.date,
                 weatherForecast.date_epoch,
                 weatherForecast.day,
-                weatherForecast.hour
+                weatherForecast.hour,
             )
         }
     }

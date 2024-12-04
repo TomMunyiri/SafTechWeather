@@ -48,18 +48,22 @@ fun Modifier.clickable(
     onClickLabel: String? = null,
     role: Role? = null,
     onClick: () -> Unit,
-): Modifier = composed {
-    clickable(
-        interactionSource = remember { MutableInteractionSource() },
-        indication = if (showRipple) LocalIndication.current else null,
-        enabled = enabled,
-        onClickLabel = onClickLabel,
-        role = role,
-        onClick = onClick,
-    )
-}
+): Modifier =
+    composed {
+        clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = if (showRipple) LocalIndication.current else null,
+            enabled = enabled,
+            onClickLabel = onClickLabel,
+            role = role,
+            onClick = onClick,
+        )
+    }
 
-fun DayOfWeek.displayText(uppercase: Boolean = false, narrow: Boolean = false): String {
+fun DayOfWeek.displayText(
+    uppercase: Boolean = false,
+    narrow: Boolean = false,
+): String {
     val style = if (narrow) TextStyle.NARROW else TextStyle.SHORT
     return getDisplayName(style, Locale.ENGLISH).let { value ->
         if (uppercase) value.uppercase(Locale.ENGLISH) else value
@@ -79,12 +83,13 @@ fun Month.displayText(short: Boolean = true): String {
 @Composable
 fun NavigationIcon(onBackClick: () -> Unit) {
     Box(
-        modifier = Modifier
-            .fillMaxHeight()
-            .aspectRatio(1f)
-            .padding(8.dp)
-            .clip(shape = CircleShape)
-            .clickable(role = Role.Button, onClick = onBackClick),
+        modifier =
+            Modifier
+                .fillMaxHeight()
+                .aspectRatio(1f)
+                .padding(8.dp)
+                .clip(shape = CircleShape)
+                .clickable(role = Role.Button, onClick = onBackClick),
     ) {
         Icon(
             tint = Color.White,

@@ -5,7 +5,6 @@ import com.tommunyiri.saftechweather.domain.model.CurrentWeather
 import com.tommunyiri.saftechweather.domain.model.LocationModel
 import com.tommunyiri.saftechweather.domain.repository.WeatherRepository
 
-
 class GetWeatherUseCase(private val weatherRepository: WeatherRepository) {
     suspend operator fun invoke(
         location: LocationModel,

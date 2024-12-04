@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.tommunyiri.saftechweather.R
 
-
 /**
  * Created by Tom Munyiri on 03/12/2024.
  * Company:
@@ -36,7 +34,7 @@ import com.tommunyiri.saftechweather.R
 fun PermissionRationaleDialog(
     isDialogShown: MutableState<Boolean>,
     activityPermissionResult: ActivityResultLauncher<String>,
-    showWeatherUI: MutableState<Boolean>
+    showWeatherUI: MutableState<Boolean>,
 ) {
     Dialog(onDismissRequest = { isDialogShown.value = false }) {
         Surface(
@@ -48,7 +46,7 @@ fun PermissionRationaleDialog(
                 Text(
                     text = stringResource(id = R.string.location_rationale_title),
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 Text(text = stringResource(id = R.string.location_rationale_description))
@@ -65,7 +63,7 @@ fun PermissionRationaleDialog(
                                         showWeatherUI.value = false
                                     })
                                     .padding(10.dp),
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                         Text(
                             text = stringResource(id = R.string.location_rationale_button_grant),
@@ -76,7 +74,7 @@ fun PermissionRationaleDialog(
                                         activityPermissionResult.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                                     })
                                     .padding(10.dp),
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                     }
                 }

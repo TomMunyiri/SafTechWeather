@@ -6,8 +6,9 @@ import com.tommunyiri.saftechweather.domain.model.NetworkWeatherResponse
 
 interface WeatherRemoteDataSource {
     suspend fun getCurrentWeather(query: String): Result<NetworkWeatherResponse>
+
     suspend fun getWeatherForecast(
         query: String,
-        date: String
+        date: String,
     ): Result<List<NetworkForecastday>>
 }

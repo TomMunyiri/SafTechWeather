@@ -1,7 +1,6 @@
 package com.tommunyiri.saftechweather.data.sources.local.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -30,5 +29,4 @@ interface WeatherDao {
 
     @Query("DELETE FROM hourly_weather_table")
     suspend fun deleteAllWeatherForecast()
-
 }

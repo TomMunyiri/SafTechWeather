@@ -39,7 +39,7 @@ class WeatherMapperLocal : BaseMapper<DBCurrentWeather, CurrentWeather> {
             wind_kph = type.wind_kph,
             wind_mph = type.wind_mph,
             windchill_c = type.windchill_c,
-            windchill_f = type.windchill_f
+            windchill_f = type.windchill_f,
         )
 
     override fun transformToDto(type: CurrentWeather): DBCurrentWeather =
@@ -72,6 +72,6 @@ class WeatherMapperLocal : BaseMapper<DBCurrentWeather, CurrentWeather> {
             wind_kph = type.wind_kph,
             wind_mph = type.wind_mph,
             windchill_c = type.windchill_c,
-            windchill_f = type.windchill_f
+            windchill_f = type.windchill_f,
         )
 }

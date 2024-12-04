@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinParcelize) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.ktlint) apply false
 }
 
 tasks.register("clean").configure {

@@ -14,18 +14,22 @@ import androidx.compose.ui.unit.dp
 import com.tommunyiri.saftechweather.R
 
 @Composable
-fun InfoScreen(@StringRes message: Int) {
+fun InfoScreen(
+    @StringRes message: Int,
+) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
     ) {
         Spacer(modifier = Modifier.weight(0.5f))
         Text(
             text = stringResource(message),
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.CenterHorizontally)
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally),
         )
         Spacer(modifier = Modifier.weight(0.5f))
     }

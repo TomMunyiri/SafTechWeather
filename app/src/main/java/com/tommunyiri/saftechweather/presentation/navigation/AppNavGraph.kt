@@ -10,7 +10,6 @@ import com.tommunyiri.saftechweather.presentation.screens.details.DetailsScreen
 import com.tommunyiri.saftechweather.presentation.screens.home.HomeScreen
 import com.tommunyiri.saftechweather.presentation.screens.settings.SettingsScreen
 
-
 /**
  * Created by Tom Munyiri on 03/12/2024.
  * Company:
@@ -18,12 +17,9 @@ import com.tommunyiri.saftechweather.presentation.screens.settings.SettingsScree
  */
 
 @Composable
-fun WeatherAppScreensNavHost(
-    navController: NavHostController
-) {
+fun WeatherAppScreensNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Destinations.HOME.route) {
         composable(Destinations.HOME.route) {
-
             HomeScreen(
                 onSettingClicked = {
                     navController.navigate(Destinations.SETTINGS.route) {
@@ -33,7 +29,7 @@ fun WeatherAppScreensNavHost(
                     }
                 },
                 onTryAgainClicked = {
-                    //homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
+                    // homeViewModel.processIntent(HomeScreenIntent.LoadWeatherData)
                 },
                 onDateSelected = { selectedDate ->
                     // Navigate to DetailsScreen with the selected date as an argument
@@ -42,7 +38,7 @@ fun WeatherAppScreensNavHost(
                             inclusive = true
                         }
                     }
-                }
+                },
             )
         }
         composable(Destinations.SETTINGS.route) {
@@ -56,7 +52,7 @@ fun WeatherAppScreensNavHost(
         }
         composable(
             route = "details/{selectedDate}",
-            arguments = listOf(navArgument("selectedDate") { type = NavType.StringType })
+            arguments = listOf(navArgument("selectedDate") { type = NavType.StringType }),
         ) { backStackEntry ->
             val selectedDate = backStackEntry.arguments?.getString("selectedDate") ?: ""
             DetailsScreen(
@@ -67,7 +63,7 @@ fun WeatherAppScreensNavHost(
                             inclusive = true
                         }
                     }
-                }
+                },
             )
         }
     }
@@ -76,5 +72,5 @@ fun WeatherAppScreensNavHost(
 enum class Destinations(val route: String) {
     HOME("home"),
     SETTINGS("settings"),
-    DETAILS("details/{selectedDate}")
+    DETAILS("details/{selectedDate}"),
 }

@@ -1,10 +1,8 @@
 package com.tommunyiri.saftechweather.presentation.screens.details
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,10 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tommunyiri.saftechweather.domain.model.Hour
-import com.tommunyiri.saftechweather.domain.model.NetworkForecastday
 import com.tommunyiri.saftechweather.presentation.components.LoadingIndicator
 import com.tommunyiri.saftechweather.presentation.components.TopAppBarComponent
-
 
 /**
  * Created by Tom Munyiri on 04/12/2024.
@@ -41,7 +37,6 @@ fun DetailsScreen(
     onBackButtonClicked: () -> Unit,
     viewModel: DetailsScreenViewModel = hiltViewModel(),
 ) {
-
     val state by viewModel.detailsScreenState.collectAsStateWithLifecycle()
 
     var cityName by remember { mutableStateOf("") }
@@ -58,9 +53,9 @@ fun DetailsScreen(
 
     Column(modifier = Modifier.padding(1.dp)) {
         TopAppBarComponent(
-            //title = stringResource(id = R.string.settings_screen_title),
+            // title = stringResource(id = R.string.settings_screen_title),
             title = "Weather for $selectedDate",
-            onBackButtonClick = onBackButtonClicked
+            onBackButtonClick = onBackButtonClicked,
         )
         state.hourlyWeatherList?.let { hourlyWeatherList ->
             HourlyWeatherList(hourlyWeatherList)
@@ -69,9 +64,7 @@ fun DetailsScreen(
 }
 
 @Composable
-fun HourlyWeatherList(
-    hourlyWeatherList: List<Hour>
-) {
+fun HourlyWeatherList(hourlyWeatherList: List<Hour>) {
     LazyColumn(
         modifier =
             Modifier
@@ -94,36 +87,36 @@ fun HourlyWeatherList(
 @Composable
 fun HourWeatherItem(hour: Hour) {
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(16.dp),
     ) {
         Row {
             Text(
                 text = hour.time,
                 style = typography.bodyLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.weight(1.0f))
             Text(
                 text = "${hour.temp_c}°C / ${hour.temp_f}°F",
-                style = typography.bodyMedium
+                style = typography.bodyMedium,
             )
         }
         Text(
             fontWeight = FontWeight.Bold,
             text = "Condition: ${hour.condition.text}",
-            style = typography.bodyLarge, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+            style = typography.bodyLarge,
+            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
         )
         Row {
             Text(
                 text = "Humidity: ${hour.humidity}%",
-                style = typography.bodyMedium
+                style = typography.bodyMedium,
             )
             Spacer(modifier = Modifier.weight(1.0f))
             Text(
                 text = "Wind Speed: ${hour.wind_kph} km/h",
-                style = typography.bodyMedium
+                style = typography.bodyMedium,
             )
         }
-
     }
 }
