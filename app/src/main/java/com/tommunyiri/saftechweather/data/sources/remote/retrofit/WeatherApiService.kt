@@ -4,6 +4,7 @@ import com.tommunyiri.saftechweather.domain.model.NetworkHourlyWeatherResponse
 import com.tommunyiri.saftechweather.domain.model.NetworkWeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherApiService {
@@ -16,8 +17,9 @@ interface WeatherApiService {
         @Query("q") location: String,
     ): Response<NetworkWeatherResponse>
 
-    @GET("future.json")
+    @GET("{path}")
     suspend fun getWeatherForecast(
+        @Path("path") path: String,
         @Query("q") location: String,
         @Query("dt") date: String,
     ): Response<NetworkHourlyWeatherResponse>

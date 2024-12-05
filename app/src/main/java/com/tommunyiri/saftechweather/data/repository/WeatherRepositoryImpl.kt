@@ -1,6 +1,5 @@
 package com.tommunyiri.saftechweather.data.repository
 
-import android.util.Log
 import com.tommunyiri.saftechweather.core.di.scope.IoDispatcher
 import com.tommunyiri.saftechweather.core.utils.Result
 import com.tommunyiri.saftechweather.data.mappers.WeatherForecastMapperLocal
