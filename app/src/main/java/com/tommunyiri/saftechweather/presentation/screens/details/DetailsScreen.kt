@@ -1,5 +1,6 @@
 package com.tommunyiri.saftechweather.presentation.screens.details
 
+import androidx.compose.foundation.gestures.snapping.SnapPosition.Center
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -40,17 +43,27 @@ fun DetailsScreen(
         viewModel.processIntent(DetailsScreenIntent.LoadWeatherData(selectedDate))
     }
 
-    if (state.isLoading) {
-        LoadingIndicator()
-    }
-
     Column(modifier = Modifier.padding(1.dp)) {
         TopAppBarComponent(
             title = "Weather for $selectedDate",
             onBackButtonClick = onBackButtonClicked,
         )
+        if (state.isLoading) {
+            LoadingIndicator()
+        }
         state.hourlyWeatherList?.let { hourlyWeatherList ->
             HourlyWeatherList(hourlyWeatherList)
+        }
+        state.error?.let { error ->
+            Spacer(modifier = Modifier.weight(0.5f))
+            Text(
+                text = error,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.CenterHorizontally),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.weight(0.5f))
         }
     }
 }

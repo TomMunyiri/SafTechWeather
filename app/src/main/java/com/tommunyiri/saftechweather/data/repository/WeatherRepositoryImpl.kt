@@ -92,7 +92,6 @@ class WeatherRepositoryImpl
                     val mapper = WeatherForecastMapperRemote()
                     when (val response = remoteDataSource.getWeatherForecast(query, date)) {
                         is Result.Success -> {
-                            Log.d("TAG", "getWeatherForecast: Success: $response")
                             if (response.data != null) {
                                 Result.Success(mapper.transformToDomain(response.data))
                             } else {
@@ -101,7 +100,6 @@ class WeatherRepositoryImpl
                         }
 
                         is Result.Error -> {
-                            Log.d("TAG", "getWeatherForecast: Exception: ${response.exception}")
                             Result.Error(response.exception)
                         }
 
