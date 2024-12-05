@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -54,8 +55,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
+        //enableEdgeToEdge()
         createLocationRequest(
             activity = this,
             locationRequestLauncher = locationRequestLauncher,
@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SafTechWeatherTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val state = mainViewModel.state.collectAsState().value
+                    val state = mainViewModel.state.collectAsStateWithLifecycle().value
                     Box(modifier = Modifier.padding(innerPadding)) {
                         CheckForPermissions(
                             onPermissionGranted = {
