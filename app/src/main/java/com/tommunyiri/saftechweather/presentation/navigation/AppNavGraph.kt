@@ -56,7 +56,7 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
                 selectedDate = selectedDate,
                 onBackButtonClicked = {
                     navController.navigate(Destinations.HOME.route) {
-                        popUpTo(Destinations.SETTINGS.route) {
+                        popUpTo(Destinations.DETAILS.route) {
                             inclusive = true
                         }
                     }
