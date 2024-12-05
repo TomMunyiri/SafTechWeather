@@ -1,6 +1,7 @@
 package com.tommunyiri.saftechweather.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,17 +24,21 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
             HomeScreen(
                 onSettingClicked = {
                     navController.navigate(Destinations.SETTINGS.route) {
-                        popUpTo(Destinations.HOME.route) {
-                            inclusive = true
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 },
                 onDateSelected = { selectedDate ->
                     // Navigate to DetailsScreen with the selected date as an argument
                     navController.navigate("details/$selectedDate") {
-                        popUpTo(Destinations.HOME.route) {
-                            inclusive = true
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 },
             )
@@ -45,6 +50,7 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
                         inclusive = true
                     }
                 }
+                navController.popBackStack()
             })
         }
         composable(
@@ -60,6 +66,7 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
                             inclusive = true
                         }
                     }
+                    navController.popBackStack()
                 },
             )
         }
