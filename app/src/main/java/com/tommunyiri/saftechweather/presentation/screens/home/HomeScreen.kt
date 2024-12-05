@@ -56,6 +56,7 @@ import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
+import com.kizitonwose.calendar.core.yearMonth
 import com.tommunyiri.saftechweather.R
 import com.tommunyiri.saftechweather.common.getCityName
 import com.tommunyiri.saftechweather.presentation.components.LoadingIndicator
@@ -140,7 +141,7 @@ fun HomeScreen(
             state = state,
             dayContent = { day ->
                 Day(day, isSelected = selections.contains(day)) { clicked ->
-                    onDateSelected.invoke("${clicked.date.year}-${clicked.date.monthValue}-${clicked.date.dayOfMonth}")
+                    onDateSelected.invoke("${clicked.date.yearMonth}-${if (clicked.date.dayOfMonth.toString().length == 1) "0${clicked.date.dayOfMonth}" else clicked.date.dayOfMonth}")
                     if (selections.contains(clicked)) {
                         selections.remove(clicked)
                     } else {
