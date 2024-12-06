@@ -20,6 +20,18 @@
     <string name="settings_screen_title">Settings</string>
     <string name="settings_about">About</string>
     <string name="settings_content_description_about_icon">About Icon</string>
+    <string name="settings_temp_unit">Temperature Unit</string>
+    <string name="settings_content_description_temp_unit_icon">Temperature Unit Icon</string>
+    <string name="cancel">Cancel</string>
+    <string name="light_theme_name">Light theme</string>
+    <string name="dark_theme_name">Dark theme</string>
+    <string name="auto_battery_name">Auto battery</string>
+    <string name="follow_system_name">Follow system</string>
+
+    <string name="light_theme_value" translatable="false">Light</string>
+    <string name="dark_theme_value" translatable="false">Dark</string>
+    <string name="auto_battery_value" translatable="false">Auto-battery</string>
+    <string name="follow_system_value" translatable="false">System</string>
 
     <!--Preferences-->
     <string name="preference_temperature_unit_title">Temperature Unit</string>

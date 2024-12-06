@@ -1,8 +1,13 @@
 package com.tommunyiri.saftechweather.presentation.screens.settings
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tommunyiri.saftechweather.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -13,8 +18,41 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsScreenViewModel
-    @Inject
-    constructor(
-        // private val weatherRepository: WeatherRepository,
-        private val settingsRepository: SettingsRepository,
-    ) : ViewModel()
+@Inject
+constructor(private val settingsRepository: SettingsRepository) : ViewModel() {
+    private val _settingsScreenState = MutableStateFlow(SettingsScreenState())
+    val settingsScreenState: StateFlow<SettingsScreenState> = _settingsScreenState.asStateFlow()
+
+    private fun saveDefaultTempUnit(temperatureUnit: String) {
+        viewModelScope.launch {
+            settingsRepository.setDefaultTempUnit(temperatureUnit)
+        }
+    }
+
+    private fun getDefaultTempUnit() {
+        viewModelScope.launch {
+            settingsRepository.getDefaultTempUnit().collect {
+                setState { copy(prefTempUnit = it) }
+            }
+        }
+    }
+
+    fun processIntent(settingsScreenIntent: SettingsScreenIntent) {
+        when (settingsScreenIntent) {
+            is SettingsScreenIntent.GetDefaultTempUnit -> getDefaultTempUnit()
+
+            is SettingsScreenIntent.SaveDefaultTempUnit -> saveDefaultTempUnit(settingsScreenIntent.tempUnit)
+        }
+    }
+
+    private fun setState(stateReducer: SettingsScreenState.() -> SettingsScreenState) {
+        viewModelScope.launch {
+            _settingsScreenState.emit(stateReducer(settingsScreenState.value))
+        }
+    }
+}
+
+
+data class SettingsScreenState(
+    val prefTempUnit: String? = null
+)
