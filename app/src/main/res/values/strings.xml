@@ -18,6 +18,8 @@
     <string name="home_content_description_refresh_icon">Refresh Icon</string>
     <!--Settings Screen-->
     <string name="settings_screen_title">Settings</string>
+    <string name="settings_about">About</string>
+    <string name="settings_content_description_about_icon">About Icon</string>
 
     <!--Preferences-->
     <string name="preference_temperature_unit_title">Temperature Unit</string>

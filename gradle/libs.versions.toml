@@ -48,6 +48,7 @@ androidx-security-crypto="1.0.0"
 android-database-sqlcipher="4.5.0"
 #ktlint
 ktlint = "12.1.0"
+about-lib = "11.2.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -114,6 +115,8 @@ kizitonwose-calendar = { group = "com.kizitonwose.calendar", name = "compose", v
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "androidx-security-crypto" }
 android-database-sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "android-database-sqlcipher" }
+about-lib-compose-ui = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "about-lib" }
+about-lib-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-lib" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -123,4 +126,5 @@ kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = 
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+about-lib-plugin = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "about-lib" }
 

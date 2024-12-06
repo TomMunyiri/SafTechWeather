@@ -1,0 +1,63 @@
+package com.tommunyiri.saftechweather.presentation.components
+
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+/**
+ * Created by Tom Munyiri on 06/12/2024.
+ * Company:
+ * Email:
+ */
+
+@Composable
+fun SettingsItem(
+    itemLabel: String,
+    itemValue: String? = null,
+    @DrawableRes itemIcon: Int,
+    itemIconContentDescription: String,
+    onItemClicked: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClicked() }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = itemIcon),
+            contentDescription = itemIconContentDescription,
+            modifier = Modifier.padding(8.dp)
+        )
+
+        Text(
+            text = itemLabel,
+            modifier = Modifier.padding(8.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        itemValue?.let {
+            Text(
+                text = it,
+                modifier = Modifier.padding(8.dp),
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+}

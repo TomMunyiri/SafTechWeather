@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.about.lib.plugin)
 }
 
 android {
@@ -128,9 +129,12 @@ dependencies {
     // compose calendar
     implementation(libs.himanshoe.kalendar)
     implementation(libs.kotlinx.datetime)
-    // kizoiton calendat
+    // kizitonwose calendar
     implementation(libs.kizitonwose.calendar)
     // room db encryption
     implementation(libs.androidx.security.crypto)
     implementation(libs.android.database.sqlcipher)
+    // About
+    implementation(libs.about.lib.core)
+    implementation(libs.about.lib.compose.ui)
 }

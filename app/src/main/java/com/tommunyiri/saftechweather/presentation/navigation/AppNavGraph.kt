@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.tommunyiri.saftechweather.presentation.screens.about.AboutScreen
 import com.tommunyiri.saftechweather.presentation.screens.details.DetailsScreen
 import com.tommunyiri.saftechweather.presentation.screens.home.HomeScreen
 import com.tommunyiri.saftechweather.presentation.screens.settings.SettingsScreen
@@ -44,14 +45,18 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
             )
         }
         composable(Destinations.SETTINGS.route) {
-            SettingsScreen(onBackButtonClicked = {
-                navController.navigate(Destinations.HOME.route) {
-                    popUpTo(Destinations.SETTINGS.route) {
-                        inclusive = true
+            SettingsScreen(
+                onBackButtonClicked = {
+                    navController.navigate(Destinations.HOME.route) {
+                        popUpTo(Destinations.SETTINGS.route) {
+                            inclusive = true
+                        }
                     }
-                }
-                navController.popBackStack()
-            })
+                    navController.popBackStack()
+                },
+                onAboutClicked = {
+                    navController.navigate(Destinations.ABOUT.route)
+                })
         }
         composable(
             route = "details/{selectedDate}",
@@ -70,11 +75,23 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
                 },
             )
         }
+        composable(Destinations.ABOUT.route) {
+            AboutScreen(
+                onBackButtonClicked = {
+                    navController.navigate(Destinations.SETTINGS.route) {
+                        popUpTo(Destinations.ABOUT.route) {
+                            inclusive = true
+                        }
+                    }
+                    navController.popBackStack()
+                })
+        }
     }
 }
 
 enum class Destinations(val route: String) {
     HOME("home"),
     SETTINGS("settings"),
+    ABOUT("about"),
     DETAILS("details/{selectedDate}"),
 }
