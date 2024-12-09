@@ -44,8 +44,8 @@ fun SingleSelectDialog(
                 LazyColumn(modifier = Modifier.width(500.dp)) {
                     items(optionsList.size) { i ->
                         SingleItemDialogRadioButton(
-                            optionsList[i],
-                            optionsList[selectedOption],
+                            optionsList[i].toString(),
+                            optionsList[selectedOption].toString(),
                         ) { selectedValue ->
                             onItemSelected.invoke(selectedValue)
                             selectedOption = optionsList.indexOf(selectedValue)

@@ -30,12 +30,15 @@ import com.tommunyiri.saftechweather.presentation.components.TopAppBarComponent
 @Composable
 fun SettingsScreen(
     onBackButtonClicked: () -> Unit, onAboutClicked: () -> Unit,
-    viewModel: SettingsScreenViewModel = hiltViewModel()
+    viewModel: SettingsScreenViewModel = hiltViewModel(), onThemeUpdated: () -> Unit
 ) {
     val state by viewModel.settingsScreenState.collectAsStateWithLifecycle()
 
     viewModel.processIntent(SettingsScreenIntent.GetDefaultTempUnit)
+    viewModel.processIntent(SettingsScreenIntent.GetTheme)
+
     val showTempDialog = remember { mutableStateOf(false) }
+    val showThemeDialog = remember { mutableStateOf(false) }
     if (showTempDialog.value) {
         val temperatureUnits =
             LocalContext.current.resources.getStringArray(R.array.unit_values_array).toList()
@@ -48,6 +51,26 @@ fun SettingsScreen(
             onDismissRequest = { showTempDialog.value = false },
             onItemSelected = {
                 viewModel.processIntent(SettingsScreenIntent.SaveDefaultTempUnit(it))
+            },
+        )
+    }
+
+    if (showThemeDialog.value) {
+        val themes =
+            LocalContext.current.resources.getStringArray(R.array.theme_values_array).toList()
+        val selectedTheme = when (state.prefTheme) {
+            LocalContext.current.getString(R.string.follow_system_name) -> 0
+            LocalContext.current.getString(R.string.dark_theme_name) -> 1
+            else -> 2
+        }
+        SingleSelectDialog(
+            optionsList = themes,
+            defaultSelected = selectedTheme,
+            onCancelButtonClick = { showThemeDialog.value = false },
+            onDismissRequest = { showThemeDialog.value = false },
+            onItemSelected = {
+                viewModel.processIntent(SettingsScreenIntent.SaveTheme(it))
+                onThemeUpdated.invoke()
             },
         )
     }
@@ -66,11 +89,20 @@ fun SettingsScreen(
                 itemValue = defaultTempUnit
             )
         }
-        HorizontalDivider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .width(1.dp)
-        )
+        state.prefTheme?.let { prefTheme ->
+            SettingsItem(
+                itemLabel = stringResource(R.string.settings_theme),
+                itemIcon = R.drawable.ic_palette,
+                itemIconContentDescription = stringResource(R.string.settings_content_description_theme_icon),
+                onItemClicked = { showThemeDialog.value = true },
+                itemValue = prefTheme
+            )
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(1.dp)
+            )
+        }
 
         SettingsItem(
             itemLabel = stringResource(R.string.settings_about),

@@ -40,8 +40,9 @@ constructor(private val settingsRepository: SettingsRepository) : ViewModel() {
     fun processIntent(settingsScreenIntent: SettingsScreenIntent) {
         when (settingsScreenIntent) {
             is SettingsScreenIntent.GetDefaultTempUnit -> getDefaultTempUnit()
-
             is SettingsScreenIntent.SaveDefaultTempUnit -> saveDefaultTempUnit(settingsScreenIntent.tempUnit)
+            is SettingsScreenIntent.SaveTheme -> saveTheme(settingsScreenIntent.theme)
+            SettingsScreenIntent.GetTheme -> getTheme()
         }
     }
 
@@ -50,9 +51,25 @@ constructor(private val settingsRepository: SettingsRepository) : ViewModel() {
             _settingsScreenState.emit(stateReducer(settingsScreenState.value))
         }
     }
+
+    private fun saveTheme(theme: String) {
+        viewModelScope.launch {
+            settingsRepository.setPreferredTheme(theme)
+            setState { copy(prefTheme = theme) }
+        }
+    }
+
+    private fun getTheme() {
+        viewModelScope.launch {
+            settingsRepository.getPreferredTheme().collect { theme ->
+                setState { copy(prefTheme = theme) }
+            }
+        }
+    }
 }
 
 
 data class SettingsScreenState(
-    val prefTempUnit: String? = null
+    val prefTempUnit: String? = null,
+    val prefTheme: String? = null
 )

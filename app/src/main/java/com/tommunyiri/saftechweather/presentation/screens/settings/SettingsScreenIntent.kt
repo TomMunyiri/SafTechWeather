@@ -9,4 +9,6 @@ package com.tommunyiri.saftechweather.presentation.screens.settings
 sealed class SettingsScreenIntent {
     object GetDefaultTempUnit : SettingsScreenIntent()
     data class SaveDefaultTempUnit(val tempUnit: String) : SettingsScreenIntent()
+    data class SaveTheme(val theme: String) : SettingsScreenIntent()
+    object GetTheme : SettingsScreenIntent()
 }

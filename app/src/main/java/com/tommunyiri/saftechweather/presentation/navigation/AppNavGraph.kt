@@ -19,7 +19,7 @@ import com.tommunyiri.saftechweather.presentation.screens.settings.SettingsScree
  */
 
 @Composable
-fun WeatherAppScreensNavHost(navController: NavHostController) {
+fun WeatherAppScreensNavHost(navController: NavHostController, onThemeUpdated: () -> Unit) {
     NavHost(navController = navController, startDestination = Destinations.HOME.route) {
         composable(Destinations.HOME.route) {
             HomeScreen(
@@ -56,6 +56,9 @@ fun WeatherAppScreensNavHost(navController: NavHostController) {
                 },
                 onAboutClicked = {
                     navController.navigate(Destinations.ABOUT.route)
+                },
+                onThemeUpdated = {
+                    onThemeUpdated
                 })
         }
         composable(

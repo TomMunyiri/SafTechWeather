@@ -31,4 +31,8 @@ interface SettingsRepository {
     suspend fun setDefaultTempUnit(prefTempUnit: String)
 
     suspend fun getDefaultTempUnit(): Flow<String>
+
+    suspend fun setPreferredTheme(preferredTheme: String)
+
+    suspend fun getPreferredTheme(): Flow<String>
 }

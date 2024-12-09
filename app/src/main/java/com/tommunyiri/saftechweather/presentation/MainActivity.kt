@@ -8,12 +8,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -63,10 +68,18 @@ class MainActivity : ComponentActivity() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        mainViewModel.processIntent(MainViewIntent.GetTheme)
+
         setContent {
-            SafTechWeatherTheme {
+            val state = mainViewModel.state.collectAsStateWithLifecycle().value
+            val shouldUseDarkTheme = when (state.theme) {
+                "Light" -> false
+                "Dark" -> true
+                else -> isSystemInDarkTheme()
+            }
+            var darkModeState by remember { mutableStateOf(shouldUseDarkTheme) }
+            SafTechWeatherTheme(darkTheme = darkModeState) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val state = mainViewModel.state.collectAsStateWithLifecycle().value
                     Box(modifier = Modifier.padding(innerPadding)) {
                         CheckForPermissions(
                             onPermissionGranted = {
@@ -77,7 +90,14 @@ class MainActivity : ComponentActivity() {
                             },
                         )
 
-                        InitMainScreen(state)
+                        InitMainScreen(state, onThemeUpdated = {
+                            mainViewModel.processIntent(MainViewIntent.GetTheme)
+                            if (shouldUseDarkTheme != darkModeState) {
+                                darkModeState.let {
+                                    darkModeState = !it
+                                }
+                            }
+                        })
                     }
                 }
             }
@@ -86,7 +106,7 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("MissingPermission")
     @Composable
-    private fun InitMainScreen(state: MainViewState) {
+    private fun InitMainScreen(state: MainViewState, onThemeUpdated: () -> Unit) {
         when {
             state.isLocationSettingEnabled && state.isPermissionGranted -> {
                 fusedLocationProviderClient.lastLocation
@@ -100,7 +120,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                WeatherAppScreensNavHost(navController = rememberNavController())
+                WeatherAppScreensNavHost(navController = rememberNavController(), onThemeUpdated)
             }
 
             state.isLocationSettingEnabled && !state.isPermissionGranted -> {
@@ -113,6 +133,15 @@ class MainActivity : ComponentActivity() {
 
             else -> LoadingIndicator()
         }
+    }
+}
+
+@Composable
+private fun shouldUseDarkTheme(theme: String): Boolean {
+    return when (theme) {
+        "Light" -> false
+        "Dark" -> true
+        else -> isSystemInDarkTheme()
     }
 }
 
