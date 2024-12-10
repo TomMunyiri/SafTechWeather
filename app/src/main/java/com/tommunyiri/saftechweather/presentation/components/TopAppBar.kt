@@ -1,10 +1,7 @@
 package com.tommunyiri.saftechweather.presentation.components
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +15,10 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarComponent(title: String, onBackButtonClick: () -> Unit) {
+fun TopAppBarComponent(
+    title: String, onBackButtonClick: () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {}
+) {
     TopAppBar(
         modifier = Modifier
             .padding(0.dp),
@@ -28,5 +28,6 @@ fun TopAppBarComponent(title: String, onBackButtonClick: () -> Unit) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },
+        actions = actions
     )
 }

@@ -56,6 +56,11 @@ constructor(
                     detailsScreenState.value.defaultLocation,
                     detailsScreenIntent.selectedDate,
                 )
+
+            is DetailsScreenIntent.RefreshWeatherData -> refreshWeather(
+                detailsScreenState.value.defaultLocation,
+                detailsScreenIntent.selectedDate,
+            )
         }
     }
 

@@ -1,6 +1,5 @@
 package com.tommunyiri.saftechweather.presentation.screens.details
 
-import androidx.compose.foundation.gestures.snapping.SnapPosition.Center
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,9 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,7 +51,16 @@ fun DetailsScreen(
         TopAppBarComponent(
             title = "Weather for $selectedDate",
             onBackButtonClick = onBackButtonClicked,
-        )
+            actions = {
+                IconButton(onClick = {
+                    viewModel.processIntent(DetailsScreenIntent.RefreshWeatherData(selectedDate))
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Refresh,
+                        contentDescription = "Localized description"
+                    )
+                }
+            })
         if (state.isLoading) {
             LoadingIndicator()
         }
@@ -73,19 +84,17 @@ fun DetailsScreen(
 @Composable
 fun HourlyWeatherList(hourlyWeatherList: List<Hour>) {
     LazyColumn(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp),
     ) {
         items(hourlyWeatherList.size) { i ->
             val hourlyWeather = hourlyWeatherList[i]
             HourWeatherItem(hourlyWeather)
             HorizontalDivider(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .width(1.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .width(1.dp),
             )
         }
     }

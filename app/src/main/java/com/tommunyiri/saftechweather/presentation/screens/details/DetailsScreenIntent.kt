@@ -7,4 +7,5 @@ package com.tommunyiri.saftechweather.presentation.screens.details
  */
 sealed class DetailsScreenIntent {
     data class LoadWeatherData(val selectedDate: String) : DetailsScreenIntent()
+    data class RefreshWeatherData(val selectedDate: String) : DetailsScreenIntent()
 }
