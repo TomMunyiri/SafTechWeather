@@ -15,16 +15,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.tommunyiri.saftechweather.R
 import com.tommunyiri.saftechweather.common.CheckForPermissions
 import com.tommunyiri.saftechweather.common.OnPermissionDenied
 import com.tommunyiri.saftechweather.common.createLocationRequest
@@ -39,7 +42,7 @@ import com.tommunyiri.saftechweather.presentation.ui.theme.SafTechWeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity() : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private val locationRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -68,17 +71,18 @@ class MainActivity : ComponentActivity() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        mainViewModel.processIntent(MainViewIntent.GetTheme)
-
         setContent {
             val state = mainViewModel.state.collectAsStateWithLifecycle().value
-            val shouldUseDarkTheme = when (state.theme) {
-                "Light" -> false
-                "Dark" -> true
+            LaunchedEffect(key1 = Unit) {
+                mainViewModel.processIntent(MainViewIntent.GetTheme)
+            }
+            var shouldUseDarkTheme = when (state.theme) {
+                LocalContext.current.getString(R.string.light_theme_value) -> false
+                LocalContext.current.getString(R.string.dark_theme_value) -> true
                 else -> isSystemInDarkTheme()
             }
             var darkModeState by remember { mutableStateOf(shouldUseDarkTheme) }
-            SafTechWeatherTheme(darkTheme = darkModeState) {
+            SafTechWeatherTheme(darkTheme = shouldUseDarkTheme) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         CheckForPermissions(
@@ -92,11 +96,7 @@ class MainActivity : ComponentActivity() {
 
                         InitMainScreen(state, onThemeUpdated = {
                             mainViewModel.processIntent(MainViewIntent.GetTheme)
-                            if (shouldUseDarkTheme != darkModeState) {
-                                darkModeState.let {
-                                    darkModeState = !it
-                                }
-                            }
+                            darkModeState = shouldUseDarkTheme
                         })
                     }
                 }

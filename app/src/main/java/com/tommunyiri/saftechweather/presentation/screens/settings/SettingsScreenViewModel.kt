@@ -1,5 +1,6 @@
 package com.tommunyiri.saftechweather.presentation.screens.settings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.saftechweather.domain.repository.SettingsRepository
@@ -55,7 +56,6 @@ constructor(private val settingsRepository: SettingsRepository) : ViewModel() {
     private fun saveTheme(theme: String) {
         viewModelScope.launch {
             settingsRepository.setPreferredTheme(theme)
-            setState { copy(prefTheme = theme) }
         }
     }
 

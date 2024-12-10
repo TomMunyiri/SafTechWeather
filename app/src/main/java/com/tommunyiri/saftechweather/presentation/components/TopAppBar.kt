@@ -19,8 +19,6 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarComponent(title: String, onBackButtonClick: () -> Unit) {
-    val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
-    val topPadding = systemBarsPadding.calculateTopPadding()
     TopAppBar(
         modifier = Modifier
             .padding(0.dp),

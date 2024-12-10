@@ -59,8 +59,8 @@ fun SettingsScreen(
         val themes =
             LocalContext.current.resources.getStringArray(R.array.theme_values_array).toList()
         val selectedTheme = when (state.prefTheme) {
-            LocalContext.current.getString(R.string.follow_system_name) -> 0
-            LocalContext.current.getString(R.string.dark_theme_name) -> 1
+            LocalContext.current.getString(R.string.follow_system_value) -> 0
+            LocalContext.current.getString(R.string.light_theme_value) -> 1
             else -> 2
         }
         SingleSelectDialog(
@@ -106,7 +106,7 @@ fun SettingsScreen(
 
         SettingsItem(
             itemLabel = stringResource(R.string.settings_about),
-            itemIcon = if (isSystemInDarkTheme()) R.drawable.ic_info_dark else R.drawable.ic_info,
+            itemIcon = R.drawable.ic_info,
             itemIconContentDescription = stringResource(R.string.settings_content_description_about_icon),
             onItemClicked = { onAboutClicked() }
         )

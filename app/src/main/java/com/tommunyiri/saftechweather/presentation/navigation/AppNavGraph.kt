@@ -58,7 +58,7 @@ fun WeatherAppScreensNavHost(navController: NavHostController, onThemeUpdated: (
                     navController.navigate(Destinations.ABOUT.route)
                 },
                 onThemeUpdated = {
-                    onThemeUpdated
+                    onThemeUpdated()
                 })
         }
         composable(
