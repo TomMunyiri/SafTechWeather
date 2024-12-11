@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -41,8 +42,8 @@ fun SettingsScreen(
     viewModel.processIntent(SettingsScreenIntent.GetDefaultTempUnit)
     viewModel.processIntent(SettingsScreenIntent.GetTheme)
 
-    val showTempDialog = remember { mutableStateOf(false) }
-    val showThemeDialog = remember { mutableStateOf(false) }
+    val showTempDialog = rememberSaveable { mutableStateOf(false) }
+    val showThemeDialog = rememberSaveable { mutableStateOf(false) }
     if (showTempDialog.value) {
         val temperatureUnits =
             LocalContext.current.resources.getStringArray(R.array.unit_values_array).toList()

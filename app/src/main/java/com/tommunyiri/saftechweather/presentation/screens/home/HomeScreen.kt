@@ -100,7 +100,7 @@ fun HomeScreen(
             cityName = address.locality.toString()
         }
 
-        LaunchedEffect(key1 = cityName) {
+        LaunchedEffect(key1 = Unit) {
             viewModel.processIntent(HomeScreenIntent.LoadWeatherData)
         }
 
