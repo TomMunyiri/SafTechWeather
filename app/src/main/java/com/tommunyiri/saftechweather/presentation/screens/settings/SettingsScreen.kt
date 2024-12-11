@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Thermostat
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -83,7 +87,7 @@ fun SettingsScreen(
         state.prefTempUnit?.let { defaultTempUnit ->
             SettingsItem(
                 itemLabel = stringResource(R.string.settings_temp_unit),
-                itemIcon = R.drawable.ic_temp_unit,
+                itemIcon = Icons.Outlined.Thermostat,
                 itemIconContentDescription = stringResource(R.string.settings_content_description_temp_unit_icon),
                 onItemClicked = { showTempDialog.value = true },
                 itemValue = defaultTempUnit
@@ -92,7 +96,7 @@ fun SettingsScreen(
         state.prefTheme?.let { prefTheme ->
             SettingsItem(
                 itemLabel = stringResource(R.string.settings_theme),
-                itemIcon = R.drawable.ic_palette,
+                itemIcon = Icons.Outlined.Palette,
                 itemIconContentDescription = stringResource(R.string.settings_content_description_theme_icon),
                 onItemClicked = { showThemeDialog.value = true },
                 itemValue = prefTheme
@@ -106,7 +110,7 @@ fun SettingsScreen(
 
         SettingsItem(
             itemLabel = stringResource(R.string.settings_about),
-            itemIcon = R.drawable.ic_info,
+            itemIcon = Icons.Outlined.Info,
             itemIconContentDescription = stringResource(R.string.settings_content_description_about_icon),
             onItemClicked = { onAboutClicked() }
         )

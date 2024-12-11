@@ -2,16 +2,13 @@ package com.tommunyiri.saftechweather.presentation.screens.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,8 +18,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,11 +39,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -294,28 +293,22 @@ fun HomeTopBar(
     Row(
         modifier =
             Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxWidth(),
     ) {
-        Image(
-            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_refresh_dark else R.drawable.ic_refresh),
-            contentDescription = stringResource(R.string.home_content_description_refresh_icon),
-            modifier =
-                Modifier
-                    .defaultMinSize(40.dp)
-                    .clickable { onRefreshClicked() }
-                    .padding(8.dp),
-        )
+        IconButton(onClick = { onRefreshClicked() }, modifier = Modifier.padding(0.dp)) {
+            Icon(
+                imageVector = Icons.Rounded.Refresh,
+                contentDescription = stringResource(R.string.home_content_description_refresh_icon)
+            )
+        }
         Spacer(modifier = Modifier.weight(1.0f))
-        Image(
-            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.ic_settings_dark else R.drawable.ic_settings),
-            contentDescription = stringResource(R.string.home_content_description_setting_icon),
-            modifier =
-                Modifier
-                    .defaultMinSize(40.dp)
-                    .clickable { onSettingClicked() }
-                    .padding(8.dp),
-        )
+        IconButton(onClick = { onSettingClicked() }, modifier = Modifier.padding(0.dp)) {
+            Icon(
+                imageVector = Icons.Rounded.Settings,
+                contentDescription = stringResource(R.string.home_content_description_setting_icon)
+            )
+        }
     }
 }
 
