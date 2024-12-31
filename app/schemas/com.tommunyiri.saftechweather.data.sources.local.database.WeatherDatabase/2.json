@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "d3c14142502e29bf345707e00c62d612",
+    "identityHash": "37a8896016f21ae2b114e7538f108f7f",
     "entities": [
       {
         "tableName": "weather_table",
@@ -212,7 +212,7 @@
       },
       {
         "tableName": "hourly_weather_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `date_epoch` INTEGER NOT NULL, `weather_hourly_data` TEXT NOT NULL, `moon_illumination` INTEGER NOT NULL, `moon_phase` TEXT NOT NULL, `moonrise` TEXT NOT NULL, `moonset` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `avghumidity` REAL NOT NULL, `avgtemp_c` REAL NOT NULL, `avgtemp_f` REAL NOT NULL, `avgvis_km` REAL NOT NULL, `avgvis_miles` REAL NOT NULL, `maxtemp_c` REAL NOT NULL, `maxtemp_f` REAL NOT NULL, `maxwind_kph` REAL NOT NULL, `maxwind_mph` REAL NOT NULL, `mintemp_c` REAL NOT NULL, `mintemp_f` REAL NOT NULL, `totalprecip_in` REAL NOT NULL, `totalprecip_mm` REAL NOT NULL, `uv` REAL NOT NULL, `code` INTEGER NOT NULL, `icon` TEXT NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`date`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `date_epoch` INTEGER NOT NULL, `weather_hourly_data` TEXT NOT NULL, `modified_at` TEXT, `moon_illumination` INTEGER NOT NULL, `moon_phase` TEXT NOT NULL, `moonrise` TEXT NOT NULL, `moonset` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `avghumidity` REAL NOT NULL, `avgtemp_c` REAL NOT NULL, `avgtemp_f` REAL NOT NULL, `avgvis_km` REAL NOT NULL, `avgvis_miles` REAL NOT NULL, `maxtemp_c` REAL NOT NULL, `maxtemp_f` REAL NOT NULL, `maxwind_kph` REAL NOT NULL, `maxwind_mph` REAL NOT NULL, `mintemp_c` REAL NOT NULL, `mintemp_f` REAL NOT NULL, `totalprecip_in` REAL NOT NULL, `totalprecip_mm` REAL NOT NULL, `uv` REAL NOT NULL, `code` INTEGER NOT NULL, `icon` TEXT NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`date`))",
         "fields": [
           {
             "fieldPath": "date",
@@ -231,6 +231,12 @@
             "columnName": "weather_hourly_data",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "modifiedAt",
+            "columnName": "modified_at",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "astro.moon_illumination",
@@ -384,7 +390,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd3c14142502e29bf345707e00c62d612')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '37a8896016f21ae2b114e7538f108f7f')"
     ]
   }
 }

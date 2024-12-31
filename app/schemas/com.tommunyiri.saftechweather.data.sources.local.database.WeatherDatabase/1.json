@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "74c6b15623971d6b4961f0e0bee606b2",
+    "identityHash": "37a8896016f21ae2b114e7538f108f7f",
     "entities": [
       {
         "tableName": "weather_table",
@@ -209,12 +209,188 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "hourly_weather_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `date_epoch` INTEGER NOT NULL, `weather_hourly_data` TEXT NOT NULL, `modified_at` TEXT, `moon_illumination` INTEGER NOT NULL, `moon_phase` TEXT NOT NULL, `moonrise` TEXT NOT NULL, `moonset` TEXT NOT NULL, `sunrise` TEXT NOT NULL, `sunset` TEXT NOT NULL, `avghumidity` REAL NOT NULL, `avgtemp_c` REAL NOT NULL, `avgtemp_f` REAL NOT NULL, `avgvis_km` REAL NOT NULL, `avgvis_miles` REAL NOT NULL, `maxtemp_c` REAL NOT NULL, `maxtemp_f` REAL NOT NULL, `maxwind_kph` REAL NOT NULL, `maxwind_mph` REAL NOT NULL, `mintemp_c` REAL NOT NULL, `mintemp_f` REAL NOT NULL, `totalprecip_in` REAL NOT NULL, `totalprecip_mm` REAL NOT NULL, `uv` REAL NOT NULL, `code` INTEGER NOT NULL, `icon` TEXT NOT NULL, `text` TEXT NOT NULL, PRIMARY KEY(`date`))",
+        "fields": [
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date_epoch",
+            "columnName": "date_epoch",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hour",
+            "columnName": "weather_hourly_data",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modifiedAt",
+            "columnName": "modified_at",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "astro.moon_illumination",
+            "columnName": "moon_illumination",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "astro.moon_phase",
+            "columnName": "moon_phase",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "astro.moonrise",
+            "columnName": "moonrise",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "astro.moonset",
+            "columnName": "moonset",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "astro.sunrise",
+            "columnName": "sunrise",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "astro.sunset",
+            "columnName": "sunset",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.avghumidity",
+            "columnName": "avghumidity",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.avgtemp_c",
+            "columnName": "avgtemp_c",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.avgtemp_f",
+            "columnName": "avgtemp_f",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.avgvis_km",
+            "columnName": "avgvis_km",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.avgvis_miles",
+            "columnName": "avgvis_miles",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.maxtemp_c",
+            "columnName": "maxtemp_c",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.maxtemp_f",
+            "columnName": "maxtemp_f",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.maxwind_kph",
+            "columnName": "maxwind_kph",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.maxwind_mph",
+            "columnName": "maxwind_mph",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.mintemp_c",
+            "columnName": "mintemp_c",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.mintemp_f",
+            "columnName": "mintemp_f",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.totalprecip_in",
+            "columnName": "totalprecip_in",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.totalprecip_mm",
+            "columnName": "totalprecip_mm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.uv",
+            "columnName": "uv",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.condition.code",
+            "columnName": "code",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.condition.icon",
+            "columnName": "icon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day.condition.text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "date"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '74c6b15623971d6b4961f0e0bee606b2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '37a8896016f21ae2b114e7538f108f7f')"
     ]
   }
 }

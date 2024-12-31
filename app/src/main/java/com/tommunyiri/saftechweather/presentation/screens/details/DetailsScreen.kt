@@ -28,6 +28,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tommunyiri.saftechweather.domain.model.Hour
 import com.tommunyiri.saftechweather.presentation.components.LoadingIndicator
 import com.tommunyiri.saftechweather.presentation.components.TopAppBarComponent
+import com.tommunyiri.saftechweather.presentation.components.WeatherDataStatusText
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedGreenBackground
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedGreenBorder
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedGreenText
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedRedBackground
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedRedBorder
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedRedText
 
 /**
  * Created by Tom Munyiri on 04/12/2024.
@@ -65,7 +72,24 @@ fun DetailsScreen(
             LoadingIndicator()
         }
         state.hourlyWeatherList?.let { hourlyWeatherList ->
-            HourlyWeatherList(hourlyWeatherList)
+            Column {
+                if (state.isWeatherUpToDate == true) {
+                    WeatherDataStatusText(
+                        "Updated: ${state.modifiedAt}",
+                        WeatherUpdatedGreenText,
+                        WeatherUpdatedGreenBorder,
+                        WeatherUpdatedGreenBackground
+                    )
+                } else {
+                    WeatherDataStatusText(
+                        "Updated: ${state.modifiedAt}",
+                        WeatherUpdatedRedText,
+                        WeatherUpdatedRedBorder,
+                        WeatherUpdatedRedBackground
+                    )
+                }
+                HourlyWeatherList(hourlyWeatherList)
+            }
         }
         state.error?.let { error ->
             Spacer(modifier = Modifier.weight(0.5f))
@@ -90,12 +114,12 @@ fun HourlyWeatherList(hourlyWeatherList: List<Hour>) {
     ) {
         items(hourlyWeatherList.size) { i ->
             val hourlyWeather = hourlyWeatherList[i]
-            HourWeatherItem(hourlyWeather)
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .width(1.dp),
             )
+            HourWeatherItem(hourlyWeather)
         }
     }
 }

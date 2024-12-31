@@ -19,4 +19,6 @@ data class DBForecastday(
     val day: Day,
     @ColumnInfo(name = "weather_hourly_data")
     val hour: List<Hour>,
+    @ColumnInfo(name = "modified_at")
+    var modifiedAt: String? = null,
 )

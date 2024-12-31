@@ -1,6 +1,7 @@
 package com.tommunyiri.saftechweather.core.di.module
 
 import com.tommunyiri.saftechweather.domain.repository.WeatherRepository
+import com.tommunyiri.saftechweather.domain.usecases.DetermineIfWeatherUpdatedUseCase
 import com.tommunyiri.saftechweather.domain.usecases.GetWeatherForecastUseCase
 import com.tommunyiri.saftechweather.domain.usecases.GetWeatherUseCase
 import com.tommunyiri.saftechweather.domain.usecases.WeatherUseCases
@@ -19,6 +20,7 @@ class UseCasesModule {
         return WeatherUseCases(
             getWeather = GetWeatherUseCase(weatherRepository),
             getWeatherForecast = GetWeatherForecastUseCase(weatherRepository),
+            determineIfWeatherUpdated = DetermineIfWeatherUpdatedUseCase()
         )
     }
 }

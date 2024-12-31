@@ -10,7 +10,7 @@ import com.tommunyiri.saftechweather.data.sources.local.database.typeconverters.
 
 @Database(
     entities = [DBCurrentWeather::class, DBForecastday::class],
-    version = 2,
+    version = 1,
     exportSchema = true,
 )
 @TypeConverters(ListNetworkHourConverter::class)

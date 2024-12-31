@@ -61,6 +61,13 @@ import com.kizitonwose.calendar.core.yearMonth
 import com.tommunyiri.saftechweather.R
 import com.tommunyiri.saftechweather.common.getCityName
 import com.tommunyiri.saftechweather.presentation.components.LoadingIndicator
+import com.tommunyiri.saftechweather.presentation.components.WeatherDataStatusText
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedGreenBackground
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedGreenBorder
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedGreenText
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedRedBackground
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedRedBorder
+import com.tommunyiri.saftechweather.presentation.ui.theme.WeatherUpdatedRedText
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.YearMonth
@@ -90,8 +97,7 @@ fun HomeScreen(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         LocalContext.current.getCityName(
             latitude = state.defaultLocation.latitude,
@@ -117,13 +123,12 @@ fun HomeScreen(
         val selections = remember { mutableStateListOf<CalendarDay>() }
         val daysOfWeek = remember { daysOfWeek() }
 
-        val state =
-            rememberCalendarState(
-                startMonth = startMonth,
-                endMonth = endMonth,
-                firstVisibleMonth = currentMonth,
-                firstDayOfWeek = daysOfWeek.first(),
-            )
+        val state = rememberCalendarState(
+            startMonth = startMonth,
+            endMonth = endMonth,
+            firstVisibleMonth = currentMonth,
+            firstDayOfWeek = daysOfWeek.first(),
+        )
         val coroutineScope = rememberCoroutineScope()
         val visibleMonth = rememberFirstMostVisibleMonth(state, viewportPercent = 90f)
         SimpleCalendarTitle(
@@ -180,10 +185,9 @@ fun SimpleCalendarTitle(
             isHorizontal = isHorizontal,
         )
         Text(
-            modifier =
-                Modifier
-                    .weight(1f)
-                    .testTag("MonthTitle"),
+            modifier = Modifier
+                .weight(1f)
+                .testTag("MonthTitle"),
             text = currentMonth.displayText(),
             fontSize = 22.sp,
             textAlign = TextAlign.Center,
@@ -205,24 +209,22 @@ private fun CalendarNavigationIcon(
     isHorizontal: Boolean = true,
     onClick: () -> Unit,
 ) = Box(
-    modifier =
-        Modifier
-            .fillMaxHeight()
-            .aspectRatio(1f)
-            .clip(shape = CircleShape)
-            .clickable(role = Role.Button, onClick = onClick),
+    modifier = Modifier
+        .fillMaxHeight()
+        .aspectRatio(1f)
+        .clip(shape = CircleShape)
+        .clickable(role = Role.Button, onClick = onClick),
 ) {
     val rotation by animateFloatAsState(
         targetValue = if (isHorizontal) 0f else 90f,
         label = "CalendarNavigationIconAnimation",
     )
     Icon(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(4.dp)
-                .align(Alignment.Center)
-                .rotate(rotation),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(4.dp)
+            .align(Alignment.Center)
+            .rotate(rotation),
         imageVector = imageVector,
         contentDescription = contentDescription,
     )
@@ -231,10 +233,9 @@ private fun CalendarNavigationIcon(
 @Composable
 private fun MonthHeader(daysOfWeek: List<DayOfWeek>) {
     Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .testTag("MonthHeader"),
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("MonthHeader"),
     ) {
         for (dayOfWeek in daysOfWeek) {
             Text(
@@ -256,27 +257,25 @@ private fun Day(
     onClick: (CalendarDay) -> Unit,
 ) {
     Box(
-        modifier =
-            Modifier
-                .aspectRatio(1f) // This is important for square-sizing!
-                .testTag("MonthDay")
-                .padding(6.dp)
-                .clip(CircleShape)
-                .background(color = if (isSelected) colorResource(R.color.purple_200) else Color.Transparent)
-                // Disable clicks on inDates/outDates
-                .clickable(
-                    enabled = day.position == DayPosition.MonthDate,
-                    showRipple = !isSelected,
-                    onClick = { onClick(day) },
-                ),
+        modifier = Modifier
+            .aspectRatio(1f) // This is important for square-sizing!
+            .testTag("MonthDay")
+            .padding(6.dp)
+            .clip(CircleShape)
+            .background(color = if (isSelected) colorResource(R.color.purple_200) else Color.Transparent)
+            // Disable clicks on inDates/outDates
+            .clickable(
+                enabled = day.position == DayPosition.MonthDate,
+                showRipple = !isSelected,
+                onClick = { onClick(day) },
+            ),
         contentAlignment = Alignment.Center,
     ) {
-        val textColor =
-            when (day.position) {
-                // Color.Unspecified will use the default text color from the current theme
-                DayPosition.MonthDate -> if (isSelected) Color.White else Color.Unspecified
-                DayPosition.InDate, DayPosition.OutDate -> colorResource(R.color.purple_200)
-            }
+        val textColor = when (day.position) {
+            // Color.Unspecified will use the default text color from the current theme
+            DayPosition.MonthDate -> if (isSelected) Color.White else Color.Unspecified
+            DayPosition.InDate, DayPosition.OutDate -> colorResource(R.color.purple_200)
+        }
         Text(
             text = day.date.dayOfMonth.toString(),
             color = textColor,
@@ -291,10 +290,9 @@ fun HomeTopBar(
     onRefreshClicked: () -> Unit,
 ) {
     Row(
-        modifier =
-            Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
     ) {
         IconButton(onClick = { onRefreshClicked() }, modifier = Modifier.padding(0.dp)) {
             Icon(
@@ -319,61 +317,66 @@ fun TopHeader(
     state: HomeScreenState,
 ) {
     Box(
-        modifier =
-            Modifier
-                .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Column(
-            modifier =
-                Modifier
-                    .padding(16.dp, 6.dp, 16.dp, 36.dp),
+            modifier = Modifier.padding(16.dp, 6.dp, 16.dp, 36.dp),
         ) {
             Text(
                 text = cityName,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier =
-                    Modifier
-                        .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
             Text(
                 text = currentTimeDate,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 8.dp, 0.dp, 0.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 8.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
-                text =
-                    if (state.prefTempUnit == stringResource(R.string.temp_unit_celsius)) {
-                        "${state.weather?.temp_c} ${
-                            stringResource(R.string.temp_symbol_celsius)
-                        } "
-                    } else {
-                        "${state.weather?.temp_f} ${stringResource(R.string.temp_symbol_fahrenheit)}"
-                    },
+                text = if (state.prefTempUnit == stringResource(R.string.temp_unit_celsius)) {
+                    "${state.weather?.temp_c} ${
+                        stringResource(R.string.temp_symbol_celsius)
+                    } "
+                } else {
+                    "${state.weather?.temp_f} ${stringResource(R.string.temp_symbol_fahrenheit)}"
+                },
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Normal,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
             Text(
                 text = state.weather?.condition?.text.toString().uppercase(),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Normal,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 16.dp, 0.dp, 0.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 16.dp, 0.dp, 0.dp),
                 textAlign = TextAlign.Center,
             )
+            if (state.isWeatherUpToDate == true) {
+                WeatherDataStatusText(
+                    "Updated: ${state.weather?.last_updated}",
+                    WeatherUpdatedGreenText,
+                    WeatherUpdatedGreenBorder,
+                    WeatherUpdatedGreenBackground
+                )
+            } else {
+                WeatherDataStatusText(
+                    "Updated: ${state.weather?.last_updated}",
+                    WeatherUpdatedRedText,
+                    WeatherUpdatedRedBorder,
+                    WeatherUpdatedRedBackground
+                )
+            }
         }
     }
 }

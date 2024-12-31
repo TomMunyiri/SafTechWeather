@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -85,12 +88,15 @@ constructor(
                 is Result.Success -> {
                     if (!result.data.isNullOrEmpty()) {
                         val weather = result.data
-                        Log.d("TAG", "getWeather: INITIAL $result. Size: ${weather.size}")
                         setState {
                             copy(
                                 isLoading = false,
                                 hourlyWeatherList = weather.first().hour,
                                 error = null,
+                                modifiedAt = weather.first().modifiedAt.toString(),
+                                isWeatherUpToDate = weatherUseCases.determineIfWeatherUpdated(
+                                    weather.first().modifiedAt.toString()
+                                )
                             )
                         }
                     } else {
@@ -127,19 +133,20 @@ constructor(
             ) {
                 is Result.Success -> {
                     if (!result.data.isNullOrEmpty()) {
-                        Log.d(
-                            "TAG",
-                            "getWeather: REFRESH $result. Size: ${result.data.first().hour.size}"
-                        )
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                        val currentDateTime = dateFormat.format(Date(System.currentTimeMillis()))
                         setState {
                             copy(
                                 isLoading = false,
                                 hourlyWeatherList = result.data.first().hour,
                                 error = null,
+                                modifiedAt = currentDateTime,
+                                isWeatherUpToDate = weatherUseCases.determineIfWeatherUpdated(
+                                    currentDateTime
+                                )
                             )
                         }
                     } else {
-                        Log.d("TAG", "getWeather: REFRESH -> DATA IS NULL")
                         setState {
                             copy(
                                 isLoading = false,
@@ -176,8 +183,6 @@ constructor(
 }
 
 data class DetailsScreenState(
-//    val weatherForecastList: List<WeatherForecast>? = null,
-    // val hourlyWeatherList: List<Forecastday>? = null,
     val hourlyWeatherList: List<Hour>? = null,
     val isLoading: Boolean = false,
     val isLoadingForecast: Boolean = false,
@@ -185,7 +190,9 @@ data class DetailsScreenState(
     val error: String? = null,
     val locationName: String = "-",
     val currentSystemTime: String = "",
+    val modifiedAt: String = "",
     val cityName: String = "",
     val prefTempUnit: String? = null,
     val defaultLocation: LocationModel = LocationModel(0.0, 0.0),
+    val isWeatherUpToDate: Boolean = false,
 )

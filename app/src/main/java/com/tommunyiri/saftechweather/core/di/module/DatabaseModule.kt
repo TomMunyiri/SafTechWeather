@@ -35,7 +35,7 @@ class DatabaseModule {
     ): WeatherDatabase {
         return Room.databaseBuilder(context, WeatherDatabase::class.java, "SafTechWeather.db")
             .fallbackToDestructiveMigration()
-            .openHelperFactory(supportFactory)
+            //.openHelperFactory(supportFactory)
             .build()
     }
 

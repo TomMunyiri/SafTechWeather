@@ -13,6 +13,7 @@ class WeatherForecastMapperLocal : BaseMapper<List<DBForecastday>, List<Forecast
                 dbWeatherForecast.date_epoch,
                 dbWeatherForecast.day,
                 dbWeatherForecast.hour,
+                dbWeatherForecast.modifiedAt
             )
         }
     }
@@ -25,6 +26,7 @@ class WeatherForecastMapperLocal : BaseMapper<List<DBForecastday>, List<Forecast
                 weatherForecast.date_epoch,
                 weatherForecast.day,
                 weatherForecast.hour,
+                weatherForecast.modifiedAt
             )
         }
     }
