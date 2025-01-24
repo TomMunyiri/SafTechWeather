@@ -1,6 +1,5 @@
 package com.tommunyiri.saftechweather.presentation.screens.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tommunyiri.saftechweather.domain.repository.SettingsRepository

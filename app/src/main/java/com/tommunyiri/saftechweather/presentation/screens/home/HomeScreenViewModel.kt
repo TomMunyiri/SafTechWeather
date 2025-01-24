@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -164,12 +163,13 @@ constructor(
     }
 
     private fun setIsWeatherLoading() {
-        _homeScreenState.update { currentState ->
-            currentState.copy(
+        setState {
+            copy(
                 isLoading = true,
                 isRefreshing = true,
             )
         }
+
     }
 }
 

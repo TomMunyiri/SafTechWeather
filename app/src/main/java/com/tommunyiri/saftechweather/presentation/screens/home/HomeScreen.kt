@@ -18,8 +18,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
@@ -123,31 +121,31 @@ fun HomeScreen(
         val selections = remember { mutableStateListOf<CalendarDay>() }
         val daysOfWeek = remember { daysOfWeek() }
 
-        val state = rememberCalendarState(
+        val calendarState = rememberCalendarState(
             startMonth = startMonth,
             endMonth = endMonth,
             firstVisibleMonth = currentMonth,
             firstDayOfWeek = daysOfWeek.first(),
         )
         val coroutineScope = rememberCoroutineScope()
-        val visibleMonth = rememberFirstMostVisibleMonth(state, viewportPercent = 90f)
+        val visibleMonth = rememberFirstMostVisibleMonth(calendarState, viewportPercent = 90f)
         SimpleCalendarTitle(
             modifier = Modifier.padding(vertical = 10.dp, horizontal = 8.dp),
             currentMonth = visibleMonth.yearMonth,
             goToPrevious = {
                 coroutineScope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
+                    calendarState.animateScrollToMonth(calendarState.firstVisibleMonth.yearMonth.previousMonth)
                 }
             },
             goToNext = {
                 coroutineScope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
+                    calendarState.animateScrollToMonth(calendarState.firstVisibleMonth.yearMonth.nextMonth)
                 }
             },
         )
         HorizontalCalendar(
             modifier = Modifier.testTag("Calendar"),
-            state = state,
+            state = calendarState,
             dayContent = { day ->
                 Day(day, isSelected = selections.contains(day)) { clicked ->
                     onDateSelected.invoke("${clicked.date.yearMonth}-${if (clicked.date.dayOfMonth.toString().length == 1) "0${clicked.date.dayOfMonth}" else clicked.date.dayOfMonth}")
